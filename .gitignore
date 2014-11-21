@@ -1,3 +1,5 @@
+
+*.dll
 *.sdf
 *.sln
 *.suo
