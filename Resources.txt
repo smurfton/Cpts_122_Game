@@ -1,0 +1,14 @@
+Massive number of indepth DirectX tutorials and Windows App development:
+http://www.directxtutorial.com/LessonList.aspx?listid=9
+
+Video Talking about DirectX and Game Design:
+http://www.microsoftvirtualacademy.com/training-courses/introduction-to-c-and-directx-game-development-jump-start
+
+Some in-depth DirectX Rendering Tutorials:
+https://code.msdn.microsoft.com/windowsdesktop/Direct3D-Tutorial-Win32-829979ef
+
+In-depth Context as to how DirectX functions:
+http://msdn.microsoft.com/en-us/library/windows/desktop/bb153264%28v=vs.85%29.aspx
+
+3D Graphics with DirectX:
+http://msdn.microsoft.com/en-us/library/windows/desktop/hh465137.aspx
