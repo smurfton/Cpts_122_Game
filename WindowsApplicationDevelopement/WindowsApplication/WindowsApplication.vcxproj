@@ -81,6 +81,7 @@
     <ClInclude Include="Windows.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DirectFunctions.cpp" />
     <ClCompile Include="WindowsApplication.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
