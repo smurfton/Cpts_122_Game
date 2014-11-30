@@ -29,6 +29,8 @@ using std::string;
 #define FALL 'x'
 #define TURN_RIGHT 'e'
 #define TURN_LEFT 'q'
+#define DIG '1'
+#define UNDIG '2'
 
 #pragma comment(lib,"d3d9.lib")
 
@@ -85,6 +87,7 @@ void copyVector (vector<Vertex> &v1, vector<Vertex> &v2);
 
 //texture utility functions
 void setNewTexture(IDirect3DTexture9 *texture);
+void setTextureGradient(vector<Vertex> &v1);
 
 //buffer update functions
 void updateCamera();
@@ -100,6 +103,8 @@ void moveUp();
 void fall();
 void turnRight();
 void turnLeft();
+void dig();
+void undig();
 
 //global variables
 extern LPDIRECT3D9 d3d_interface; //this is the direct3D interface

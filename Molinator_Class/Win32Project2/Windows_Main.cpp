@@ -1,22 +1,5 @@
 #include "Small_Scene_Render.h"
 
-LPDIRECT3D9 d3d_interface; 
-LPDIRECT3DDEVICE9 d3d_device; 
-D3DPRESENT_PARAMETERS d3d_interface_parameters;
-LPDIRECT3DVERTEXBUFFER9 virtex_buffer; 
-LPDIRECT3DVERTEXBUFFER9 character_buffer;
-LPDIRECT3DVERTEXBUFFER9 environment_buffer;
-IDirect3DTexture9 *texture;
-IDirect3DTexture9 *ground;
-FbxManager *manager = NULL;
-Position cameraViewVector = {-INI_X, -INI_Y, -INI_Z};
-Position cameraPosition = {INI_X, INI_Y, INI_Z};
-float cameraAngle = 0;
-vector<Vertex> player;
-Transformation playerOrientation = {{0,1.38/2,0}, {1,0,0}, 0, .1};
-UINT env_size = 0, char_size = 0;
-
-
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
                    LPSTR lpCmdLine,
@@ -42,8 +25,23 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     ShowWindow(hWnd, nCmdShow);
 
-	initInterface(hWnd); //initialize the d3d device
+	//initInterface(hWnd); //initialize the d3d device
+	Game ourGame(hWnd);
+	//add objects to the game
+	Transformation transform;
+	transform.location.x = 0;
+	transform.location.y = 0;
+	transform.location.z = 0;
+	transform.normalVector.x = 0;
+	transform.normalVector.y = 0;
+	transform.normalVector.z = 0;
+	transform.rotation = 0;
+	transform.scale = .1;
 
+	ourGame.addObject(transform, "Person.FBX", L"red.png");
+	transform.scale = 10;
+	transform.location.y = -1;
+	ourGame.addObject(transform, "Ground.FBX", L"ground.png");
 
 	//create the main message loop
 	MSG msg;
@@ -61,11 +59,12 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		//else we now can generate our code for directX
 		/*Begin Scene Render Code*/
-		render();
+		//render();
+		ourGame.render();
 	}
 
 	//we have exitted. Clean up after ourselves
-	cleanD3D();
+	//cleanD3D();
 
 	//end the program
 	return msg.message;
@@ -82,7 +81,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 return 0;
             } break;
 			//handle any keyboard input
-		case WM_CHAR:
+		/*case WM_CHAR:
 			switch (wParam) {
 			case UP:
 				moveForward();
@@ -115,7 +114,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 				undig();
 				break;
 			}
-			break;
+			break;*/
 
     }
 

@@ -1,6 +1,6 @@
 #include "Small_Scene_Render.h"
 
-void initInterface(HWND window) {
+Game::Game(HWND window) { 
 	//create the interface
 	d3d_interface = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -21,58 +21,37 @@ void initInterface(HWND window) {
 								D3DCREATE_SOFTWARE_VERTEXPROCESSING, //dunno
 								&d3d_interface_parameters, //parameters created previously
 								&d3d_device); //device to store creation in
-	//initVertices(); //initialize the vertice points
-
-	//Initialize models
-	initializeEnvironment();
-	initializeCharacter();
+	
 
 	//set render states
 	d3d_device->SetRenderState(D3DRS_LIGHTING, FALSE); //turn off 3D lighting (I don't know how to use it yet) in the device
 	d3d_device->SetRenderState(D3DRS_ZENABLE, TRUE);    // turn on the z-buffer
 
-	//load textures
-	
-	D3DXCreateTextureFromFile(d3d_device, L"red.png", &texture); 
-	D3DXCreateTextureFromFile(d3d_device, L"ground.png", &ground); 
-
+	//create the camera
+	cam.setDevice(&d3d_device);
 }
-void setNewTexture(IDirect3DTexture9 *texture) {   //Texture handle
-	d3d_device->SetTexture(0, texture);
-}
+Game::~Game() { //deconstruct
 
+	//free all the objects
+	/*for (int i = 0; i < elements.size(); i++) {
+		elements.at(i).~Object(); //release each elements dependencies
+	}*/
 
-void setTextureGradient(vector<Vertex> &v1) {
-	int size = v1.size();
-	for (int i = 0; i < (int)sqrt(size); i++) {
-		for (int j = 0; j < (int)sqrt(size); j++) {
-			v1.at(i*sqrt(size) + j).tx = (float)j/(float)sqrt(size);
-			v1.at(i*sqrt(size) + j).ty = (float)i/(float)sqrt(size);
-		}
-	}
-	int dataCompleted =  ((int)sqrt(size) * (int)sqrt(size));
+	//free the device
+	d3d_device->Release();
 
-	//loop through residual information
-	int remainder = size - dataCompleted;
-	for (int i = 0; i < remainder; i++) {
-		v1.at(dataCompleted+i).tx = 1/(i+1);
-		v1.at(dataCompleted+i).ty = i/(3*(i+1));
-	}
+	//free the interface
+	d3d_interface->Release();
 }
 
-void cleanD3D() {
-	if (environment_buffer != nullptr) environment_buffer->Release();
-	//release all allocated devices in cleanup procedure
-	if (texture != nullptr) texture->Release();
-	if (ground != nullptr) ground->Release();
-	if (character_buffer != nullptr) character_buffer->Release();
-	if (virtex_buffer != nullptr) virtex_buffer->Release();
-	if (d3d_device != nullptr) d3d_device->Release();
-	if (d3d_interface != nullptr) d3d_interface->Release();
+//general functionality
+void Game::addObject(Transformation trans, char verticeFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH]) {
+	//create the new object
+	Object newObject(trans, verticeFileName, textureFileName, &d3d_device);
+	//push the object onto the vector
+	elements.push_back(newObject);
 }
-
-void render() {
-	//clear the current scene
+void Game::render() {
 	d3d_device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0); //clear the buffer
 	d3d_device->Clear(0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0); //clear the z buffer, too
 
@@ -83,18 +62,18 @@ void render() {
 	d3d_device->SetFVF(CUSTOMFVF);
 
 	/*Begin transformation pipeline! Please move to separate functions to simplify*/
-	updateCamera();
-	
-	setNewTexture(ground);
-	//draw the environment
-	d3d_device->SetStreamSource(0, environment_buffer, 0, sizeof(Vertex));
-	d3d_device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, env_size);
+	//update the camera
+	cam.update();
 
-	updateCharacter();
-	setNewTexture(texture);
-	//draw the character
-	d3d_device->SetStreamSource(0, character_buffer, 0, sizeof(Vertex));
-	d3d_device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, char_size);
+	//draw all the elements of the game
+	for (int i = 0; i < elements.size(); i++) {
+
+		//update element
+		elements.at(i).update();
+
+		//draw element
+		elements.at(i).drawObject();
+	}
 
 	//end the scene
 	d3d_device->EndScene();

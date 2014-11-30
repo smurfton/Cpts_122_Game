@@ -102,3 +102,22 @@ void render() {
 	//present nothing (we are throwing away buffers after use)
 	d3d_device->Present(NULL, NULL, NULL, NULL);
 }
+
+void updateCamera() {
+	D3DXMATRIX viewMatrix;
+	D3DXMATRIX lensMatrix;
+
+	D3DXMatrixLookAtLH(&viewMatrix,
+					   &D3DXVECTOR3 (10, 5, 5),    // the camera position
+					   &D3DXVECTOR3 (0, 0, 0),    // the look-at position
+                       &D3DXVECTOR3 (0.0f, 1.0f, 0.0f));    // the up direction
+
+	d3d_device->SetTransform(D3DTS_VIEW, &viewMatrix); //set the camera view point
+
+	D3DXMatrixPerspectiveFovLH(&lensMatrix, //Set the camera lens
+                               D3DXToRadian(45),    // the horizontal field of view
+                               (FLOAT)SCREEN_WIDTH / (FLOAT)SCREEN_HEIGHT, // aspect ratio
+                               1.0f,    // the near view-plane
+                               100.0f);    // the far view-plane
+	d3d_device->SetTransform(D3DTS_PROJECTION, &lensMatrix); //set the camera lens 
+}
