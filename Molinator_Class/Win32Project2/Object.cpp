@@ -1,6 +1,6 @@
 #include "Small_Scene_Render.h"
 
-Object::Object(Transformation trans, char vertexFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device) {
+Object::Object(D3DMATERIAL9 material, Transformation trans, char vertexFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device) {
 	//initialize the object
 	d3d_device = device;
 
@@ -24,7 +24,11 @@ Object::Object(Transformation trans, char vertexFileName[MAX_FILE_LENGTH], wchar
 	setTextureGradient(model); //initialize the texture gradient
 
 	//create the texture for the object
-	D3DXCreateTextureFromFile(*d3d_device, textureFileName, &texture); 
+	if (textureFileName != NULL) {
+		D3DXCreateTextureFromFile(*d3d_device, textureFileName, &texture); 
+	}
+
+	this->material = material;
 
 	triangleCount = model.size()/3; //count triangles in our model
 
@@ -36,7 +40,9 @@ Object::Object(Transformation trans, char vertexFileName[MAX_FILE_LENGTH], wchar
 }
 Object::~Object() { //free direct3D resources
 	//free texture resources
-	texture->Release();
+	if (texture != nullptr) {
+		texture->Release();
+	}
 	//free buffer resources
 	buffer->Release();
 }
@@ -46,7 +52,9 @@ Object::Object(const Object &copy) { //copy constructor
 	//copy over the fileNames
 	for (int i = 0; i < MAX_FILE_LENGTH; i++) {
 		vertexFileName[i] = copy.vertexFileName[i];
-		textureFileName[i] = copy.textureFileName[i];
+		if (copy.textureFileName != NULL) {
+			textureFileName[i] = copy.textureFileName[i];
+		}
 	}
 
 	//copy over the vectors
@@ -58,6 +66,8 @@ Object::Object(const Object &copy) { //copy constructor
 		vertice.z = copy.model.at(i).z;
 		vertice.tx = copy.model.at(i).tx;
 		vertice.ty = copy.model.at(i).ty;
+		vertice.normal = copy.model.at(i).normal;
+
 		model.push_back(vertice);
 
 		//transformedModel
@@ -66,6 +76,8 @@ Object::Object(const Object &copy) { //copy constructor
 		tVertice.z = copy.transformedModel.at(i).z;
 		tVertice.tx = copy.transformedModel.at(i).tx;
 		tVertice.ty = copy.transformedModel.at(i).ty;
+		tVertice.normal = copy.transformedModel.at(i).normal;
+
 		transformedModel.push_back(tVertice);
 	}
 	//copy over the device pointer
@@ -88,7 +100,12 @@ Object::Object(const Object &copy) { //copy constructor
 	(*d3d_device)->CreateVertexBuffer(triangleCount*sizeof(Vertex)*3, 0, CUSTOMFVF, D3DPOOL_MANAGED, &buffer, NULL);
 
 	//create a texture for copy
-	D3DXCreateTextureFromFile(*d3d_device, textureFileName, &texture); 
+	if (copy.textureFileName != NULL) {
+		D3DXCreateTextureFromFile(*d3d_device, textureFileName, &texture); 
+	}
+
+	//copy over the material
+	material = copy.material;
 
 	update();
 }
@@ -99,6 +116,8 @@ void Object::update() {
 	//apply transformations
 	transformVector(transform, model, transformedModel);
 
+	//calculate the vertex normals
+	calculateNormal(transformedModel);
 	void *pVoid;
 	buffer->Lock(0,0, (void **)&pVoid, 0);
 	memcpy(pVoid, &transformedModel[0], transformedModel.size()*sizeof(Vertex));
@@ -108,7 +127,12 @@ void Object::update() {
 void Object::drawObject() {
 
 	//set the texture
-	(*d3d_device)->SetTexture(0, texture);
+	if (texture != nullptr) {
+		(*d3d_device)->SetTexture(0, texture);
+	}
+
+	//set the material
+	(*d3d_device)->SetMaterial(&material);
 
 	//set the stream source
 	(*d3d_device)->SetStreamSource(0, buffer, 0, sizeof(Vertex));

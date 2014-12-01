@@ -26,6 +26,11 @@ public:
 
 	void update();
 
+	//general functionality
+	void rotateHorizontal(float angleCW);
+	void rotateVertical(float angleUp);
+	void zoom(float distanceIn);
+
 private:
 	LPDIRECT3DDEVICE9 *d3d_device;
 	Position lookAt;

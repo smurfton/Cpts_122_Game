@@ -8,15 +8,19 @@
 #include <vector>
 #include <fbxsdk.h>
 #include <string>
+#include <iostream>
+#include <fstream>
 
 using std::vector;
 using std::string;
+using std::fstream;
 
 
 /*# defines*/
 #define SCREEN_WIDTH 800 //define screen width
 #define SCREEN_HEIGHT 600 //define screen height
-#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_TEX1) //this describes a vertex format, this represents XYZ coordinates
+#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL) //this describes a vertex format, this represents XYZ coordinates
+//#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_NORMAL)
 #define MAX_FILE_LENGTH 15
 
 //game controls
@@ -31,8 +35,17 @@ using std::string;
 #define DIG '1'
 #define UNDIG '2'
 
+//camera controls
+#define ZOOMIN '+'
+#define ZOOMOUT '-'
+#define PANLEFT 'j'
+#define PANRIGHT 'l'
+#define PANUP 'i'
+#define PANDOWN 'k'
+
 //not sure why we need this to be honest
-#pragma comment(lib,"d3d9.lib")
+#pragma comment (lib, "d3d9.lib")
+#pragma comment (lib, "d3dx9.lib")
 
 
 
@@ -43,6 +56,7 @@ typedef struct VERTEX {
 	float x, y, z;
 	//DWORD color;
 	float tx, ty;
+	D3DVECTOR normal;
 } Vertex;
 
 //this struct declares a position or a vector
@@ -76,9 +90,13 @@ void transformVector(Transformation transform, vector<Vertex> &v1, vector<Vertex
 void translate(vector<Vertex> &v1, vector<Vertex> &v2, Position newLocation);
 Transformation calculateTransform(Position desiredLocation, Position desiredOrientation, float scale);
 void copyVector (vector<Vertex> &v1, vector<Vertex> &v2);
+void calculateNormal(vector<Vertex> &v1);
+float calculateMagnitude(Vector v1);
+Vector scaleVector(Vector v1, float length);
 
 //include the classes
 #include "Object.h"
+#include "Clock.h"
 #include "Player.h"
 #include "Camera.h"
 #include "Game.h"

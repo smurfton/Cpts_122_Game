@@ -3,15 +3,24 @@
 
 class Game {
 public:
+	/*public variables*/
+	Camera cam;
+
+	/*public functions*/
+	Game ();
 	Game(HWND window); //initialize
 	~Game(); //deconstruct
 
 	//general functionality
-	void addObject(Transformation trans, char verticeFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH]);
+	void addObject(D3DMATERIAL9 material, Transformation trans, char verticeFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH]);
 	void render();
+	void initializeLight();
+	void initializeMaterial();
+	void initialize(HWND window);
+	void populateElements();
 
 private:
-	Camera cam;
+	string elementsFileName;
 	vector<Object> elements;
 	LPDIRECT3D9 d3d_interface; 
 	LPDIRECT3DDEVICE9 d3d_device; 

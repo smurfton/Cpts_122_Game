@@ -54,8 +54,8 @@ HRESULT loadFBX (vector<Vertex> *pVertexVector, char *pFileName) {
                vertex.x = (float)pVertices[iControlPointIndex].mData[0];
                vertex.y = (float)pVertices[iControlPointIndex].mData[1];
                vertex.z = (float)pVertices[iControlPointIndex].mData[2];
-			   vertex.tx = (float)j/(float)pMesh->GetPolygonCount();
-			   vertex.ty = (float)j/(float)pMesh->GetPolygonCount();
+			  // vertex.tx = (float)j/(float)pMesh->GetPolygonCount();
+			  // vertex.ty = (float)j/(float)pMesh->GetPolygonCount();
                pVertexVector->push_back( vertex );
             }
          }

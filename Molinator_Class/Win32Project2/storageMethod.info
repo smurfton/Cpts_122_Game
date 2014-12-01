@@ -1,0 +1,6 @@
+this is a generic text file
+Information is read in this fashion
+
+MATERIAL TRANSFORM MODEL_FILE_NAME TEXTURE_FILE_NAME
+MATERIAL is in form: 0x00FF00FF (diffuse) 0x00FF00FF (ambient)
+TRANSFORM is in form: 

@@ -4,6 +4,9 @@ class Player : public Object {
 public:
 	Player();
 private:
+	Clock verticalClock;
+	float verticalVelocity;
+
 };
 
 

@@ -1,5 +1,7 @@
 #include "Small_Scene_Render.h"
 
+Game ourGame;
+
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
                    LPSTR lpCmdLine,
@@ -26,9 +28,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
     ShowWindow(hWnd, nCmdShow);
 
 	//initInterface(hWnd); //initialize the d3d device
-	Game ourGame(hWnd);
+	ourGame.initialize(hWnd);
 	//add objects to the game
 	Transformation transform;
+	D3DMATERIAL9 material;
+
 	transform.location.x = 0;
 	transform.location.y = 0;
 	transform.location.z = 0;
@@ -38,10 +42,15 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	transform.rotation = 0;
 	transform.scale = .1;
 
-	ourGame.addObject(transform, "Person.FBX", L"red.png");
+	//initialize the material
+	SecureZeroMemory(&material, sizeof(D3DMATERIAL9));    // clear out the struct for use
+    material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);    // set diffuse color to white
+    material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);    // set ambient color to white
+
+	ourGame.addObject(material, transform, "Person.FBX", L"red.png");
 	transform.scale = 10;
 	transform.location.y = -1;
-	ourGame.addObject(transform, "Ground.FBX", L"ground.png");
+	ourGame.addObject(material, transform, "Ground.FBX", L"color.PNG");
 
 	//create the main message loop
 	MSG msg;
@@ -81,40 +90,28 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 return 0;
             } break;
 			//handle any keyboard input
-		/*case WM_CHAR:
+		case WM_CHAR:
 			switch (wParam) {
-			case UP:
-				moveForward();
+			case ZOOMIN:
+				ourGame.cam.zoom(.1);
 				break;
-			case LEFT:
-				moveLeft();
+			case ZOOMOUT:
+				ourGame.cam.zoom(-.1);
 				break;
-			case DOWN:
-				moveBack();
+			case PANLEFT:
+				ourGame.cam.rotateHorizontal(-1);
 				break;
-			case RIGHT:
-				moveRight();
+			case PANRIGHT:
+				ourGame.cam.rotateHorizontal(1);
 				break;
-			case JUMP:
-				moveUp();
+			case PANUP:
+				ourGame.cam.rotateVertical(1);
 				break;
-			case FALL:
-				fall();
-				break;
-			case TURN_RIGHT:
-				turnRight();
-				break;
-			case TURN_LEFT:
-				turnLeft();
-				break;
-			case DIG:
-				dig();
-				break;
-			case UNDIG:
-				undig();
+			case PANDOWN:
+				ourGame.cam.rotateVertical(-1);
 				break;
 			}
-			break;*/
+			break;
 
     }
 

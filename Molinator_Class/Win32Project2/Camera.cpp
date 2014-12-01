@@ -10,9 +10,9 @@ Camera::Camera() {
 	lookAt.z = 0;
 
 	//set the camera position
-	location.x = 10;
-	location.y = 10;
-	location.z = 10;
+	location.x = 0;
+	location.y = 3;
+	location.z = 5;
 
 	//set the camera view angle
 	angle = 45;
@@ -124,4 +124,91 @@ void Camera::update() {
                                nearFrame,    // the near view-plane
                                farFrame);    // the far view-plane
 	(*d3d_device)->SetTransform(D3DTS_PROJECTION, &lensMatrix); //set the camera lens 
+}
+
+void Camera::rotateHorizontal(float angleCW) {
+	//first calculate the number of radians we are currently at
+	float currentAngle = 0, newAngle = 0;
+	Position newLocation;
+
+	//check boundary conditions. Will not know if z=0 if at 0 or 180!
+
+	
+	if ((location.x-lookAt.x) > 0) {
+		currentAngle = asin((location.z-lookAt.z)/sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.z-lookAt.z)*(location.z-lookAt.z)));
+	} else if (location.x-lookAt.x == 0) {
+		if ((location.z-lookAt.z) > 0) {
+			currentAngle = D3DXToRadian(90);
+		} else {
+			currentAngle = D3DXToRadian(270);
+		}
+	} else {
+		currentAngle = acos((location.z-lookAt.z)/sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.z-lookAt.z)*(location.z-lookAt.z)));
+		currentAngle += D3DXToRadian(90);
+	}
+	//now add in the new rotation
+	newAngle = currentAngle + D3DXToRadian(angleCW);
+
+	//now recalculate the locations. y is unchanged
+	newLocation.y = location.y;
+	newLocation.x = cos(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.z-lookAt.z)*(location.z-lookAt.z)) + lookAt.x;
+	newLocation.z = sin(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.z-lookAt.z)*(location.z-lookAt.z)) + lookAt.z;
+
+	//set the location
+	location = newLocation;
+
+}
+void Camera::zoom(float distanceIn) {
+	//we need to change the camera location. Camera will stay on the same vector
+	Vector position;
+	float magnitude = 0, length = 0;
+	position.x = location.x - lookAt.x;
+	position.y = location.y - lookAt.y;
+	position.z = location.z - lookAt.z;
+
+	magnitude = calculateMagnitude(position);
+	//we need to now construct a new vector of new length
+
+	length = magnitude-distanceIn;
+	//our final vector will have the same proportions of the position vector,
+	//therefore we can simply scale the position vector
+
+	//check to ensure we aren't at max zoom. if we are, then stop zooming
+
+	if (length > 2.5) {
+		position = scaleVector(position, length);
+		location.x = position.x + lookAt.x;
+		location.y = position.y + lookAt.y;
+		location.z = position.z + lookAt.z;
+	}
+}
+
+void Camera::rotateVertical(float angleUp) {
+	//first calculate the number of radians we are currently at
+	float currentAngle = 0, newAngle = 0;
+	Position newLocation;
+
+	if ((location.x-lookAt.x) > 0) {
+		currentAngle = asin((location.y-lookAt.y)/sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)));
+	} else if (location.x-lookAt.x == 0) {
+		if ((location.y-lookAt.y) > 0) {
+			currentAngle = D3DXToRadian(90);
+		} else {
+			currentAngle = D3DXToRadian(270);
+		}
+	} else {
+		currentAngle = acos((location.y-lookAt.y)/sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)));
+		currentAngle += D3DXToRadian(90);
+	}
+
+	//now add in the new rotation
+	newAngle = currentAngle + D3DXToRadian(angleUp);
+
+	//now recalculate the locations. z is unchanged
+	newLocation.z = location.z;
+	newLocation.x = cos(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)) + lookAt.x;
+	newLocation.y = sin(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)) + lookAt.y;
+
+	//set the location
+	location = newLocation;
 }

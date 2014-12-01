@@ -109,3 +109,61 @@ void copyVector (vector<Vertex> &v1, vector<Vertex> &v2) {
 	}
 }
 
+void calculateNormal(vector<Vertex> &v1) {
+	Vertex p1, p2, p3;
+	Vector normal;
+	float length = 0;
+//loop through each triangle
+	for (int i = 0; i < (v1.size()/3); i++) {
+		//get the three points of the triangle
+		p1 = v1.at(3*i);
+		p2 = v1.at(3*i+1);
+		p3 = v1.at(3*i+2);
+
+		//calculate the normal for this surface
+		normal.x = (p2.y-p1.y)*(p3.z-p1.z)-(p2.z-p1.z)*(p3.y-p1.y);
+		normal.y = -((p2.x-p1.x)*(p3.z-p1.z)-(p2.z-p1.z)*(p3.x-p1.x));
+		normal.z = (p2.x-p1.x)*(p3.y-p1.y)-(p2.y-p1.y)*(p3.x-p1.x);
+
+		//calculate the normal length
+		length = calculateMagnitude(normal);
+		normal.x /= length;
+		normal.y /= length;
+		normal.z /= length;
+
+		//assign the normal to each of the points
+		v1.at(3*i).normal.x = normal.x;
+		v1.at(3*i).normal.y = normal.y;
+		v1.at(3*i).normal.z = normal.z;
+		
+		v1.at(3*i+1).normal.x = normal.x;
+		v1.at(3*i+1).normal.y = normal.y;
+		v1.at(3*i+1).normal.z = normal.z;
+		
+		v1.at(3*i+2).normal.x = normal.x;
+		v1.at(3*i+2).normal.y = normal.y;
+		v1.at(3*i+2).normal.z = normal.z;
+	}
+}
+
+float calculateMagnitude(Vector v1) {
+	return sqrt(v1.x*v1.x + v1.y*v1.y + v1.z*v1.z);
+}
+
+Vector scaleVector(Vector v1, float length) {
+	Vector newVector;
+	float lengthV1 = 0;
+	//calculate the unit vector of v1
+	lengthV1 = calculateMagnitude(v1);
+
+	newVector.x = v1.x/(lengthV1*lengthV1);
+	newVector.y = v1.y/(lengthV1*lengthV1);
+	newVector.z = v1.z/(lengthV1*lengthV1);
+
+	//multiply these values by the length desired
+	newVector.x *= length*length;
+	newVector.y *= length*length;
+	newVector.z *= length*length;
+
+	return newVector;
+}
