@@ -1,6 +1,6 @@
 #include "Small_Scene_Render.h"
 
-HRESULT loadFBX (vector<Vertex> *pVertexVector, char *pFileName) {
+/*HRESULT loadFBX (Hitbox &box, vector<Vertex> *pVertexVector, char *pFileName) {
 
 	FbxManager *manager = NULL;
 
@@ -30,6 +30,11 @@ HRESULT loadFBX (vector<Vertex> *pVertexVector, char *pFileName) {
          if(pFbxChildNode->GetNodeAttribute() == NULL)
             continue;
 
+		 //grab our transformation information from the childNode
+		 FbxDouble3 translation = pFbxChildNode->LclTranslation.Get();
+		 FbxDouble3 rotation = pFbxChildNode->LclRotation.Get();
+		 FbxDouble3 scale = pFbxChildNode->LclScaling.Get();
+
          FbxNodeAttribute::EType AttributeType = pFbxChildNode->GetNodeAttribute()->GetAttributeType();
 
          if(AttributeType != FbxNodeAttribute::eMesh) //make sure the data we are reading is mesh data
@@ -54,17 +59,15 @@ HRESULT loadFBX (vector<Vertex> *pVertexVector, char *pFileName) {
                vertex.x = (float)pVertices[iControlPointIndex].mData[0];
                vertex.y = (float)pVertices[iControlPointIndex].mData[1];
                vertex.z = (float)pVertices[iControlPointIndex].mData[2];
-			  // vertex.tx = (float)j/(float)pMesh->GetPolygonCount();
-			  // vertex.ty = (float)j/(float)pMesh->GetPolygonCount();
+			   pVertices[iControlPointIndex].mData[3];
                pVertexVector->push_back( vertex );
             }
          }
 
       }
-
    }
    return S_OK;
-}
+}*/
 
 void setTextureGradient(vector<Vertex> &v1) {
 	int size = v1.size();

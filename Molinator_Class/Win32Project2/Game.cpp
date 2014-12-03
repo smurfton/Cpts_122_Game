@@ -92,9 +92,9 @@ Game::~Game() { //deconstruct
 }
 
 //general functionality
-void Game::addObject(D3DMATERIAL9 material, Transformation trans, char verticeFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH]) {
+void Game::addObject(char verticeFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH]) {
 	//create the new object
-	Object newObject(material, trans, verticeFileName, textureFileName, &d3d_device);
+	Object newObject(elements.size(), verticeFileName, textureFileName, &d3d_device);
 	//push the object onto the vector
 	elements.push_back(newObject);
 }
@@ -110,7 +110,6 @@ void Game::render() {
 
 	/*Begin transformation pipeline! Please move to separate functions to simplify*/
 	//update the camera
-	cam.update();
 
 	//draw all the elements of the game
 	for (int i = 0; i < elements.size(); i++) {
@@ -121,6 +120,7 @@ void Game::render() {
 		//draw element
 		elements.at(i).drawObject();
 	}
+	cam.update();
 
 	//end the scene
 	d3d_device->EndScene();
@@ -143,32 +143,23 @@ void Game::initializeLight() {
     d3d_device->LightEnable(0, TRUE);    // turn on light #0
 }
 
+//function returns true if a collision occurs
+bool Game::checkCollision(Cube transformedHitBox, int ID) {
 
-void Game::populateElements() {
-	D3DMATERIAL9 material;
-	Transformation transform;
-	string input;
-	wchar_t textureFile[MAX_FILE_LENGTH];
-	char modelFile[MAX_FILE_LENGTH];
+	bool collision = false;
+	//loop through all of the objects in the elements vector
+	for (int i = 0; i < elements.size(); i++) {
 
-	//open the file
-	std::fstream inputFile;
+		//ensure we are not checking if an object is colliding with itself
+		if (elements.at(i).getID() != ID) {
 
-	inputFile.open(elementsFileName, std::fstream::in);
-
-	while (inputFile) {
-		//scan in the material information
-		
-		//diffuse
-		//input >> material.Diffuse;
-		//ambient
-
-		//scan in the transformation information
-
-		//scan in the model File name
-
-		//scan in the texture file name
-
+			//check for collision
+			if (checkVerticesCube(elements.at(i).getHitBox(), transformedHitBox) || checkVerticesCube(transformedHitBox, elements.at(i).getHitBox())) {
+				//if there is a collision, set flag to true
+				collision = true;
+			}
+		}
 	}
 
+	return collision;
 }

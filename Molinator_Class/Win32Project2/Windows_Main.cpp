@@ -21,36 +21,19 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     RegisterClassEx(&wc);
 
-    hWnd = CreateWindowEx(NULL, L"WindowClass", L"Our Direct3D Program",
+    hWnd = CreateWindowEx(NULL, L"WindowClass", L"The Game",
                           WS_OVERLAPPEDWINDOW, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
                           NULL, NULL, hInstance, NULL);
 
     ShowWindow(hWnd, nCmdShow);
 
-	//initInterface(hWnd); //initialize the d3d device
 	ourGame.initialize(hWnd);
 	//add objects to the game
-	Transformation transform;
-	D3DMATERIAL9 material;
 
-	transform.location.x = 0;
-	transform.location.y = 0;
-	transform.location.z = 0;
-	transform.normalVector.x = 0;
-	transform.normalVector.y = 0;
-	transform.normalVector.z = 0;
-	transform.rotation = 0;
-	transform.scale = .1;
-
-	//initialize the material
-	SecureZeroMemory(&material, sizeof(D3DMATERIAL9));    // clear out the struct for use
-    material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);    // set diffuse color to white
-    material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);    // set ambient color to white
-
-	ourGame.addObject(material, transform, "Person.FBX", L"red.png");
-	transform.scale = 10;
-	transform.location.y = -1;
-	ourGame.addObject(material, transform, "Ground.FBX", L"color.PNG");
+	//ourGame.addObject("Person.FBX", L"red.PNG");
+	ourGame.addObject("Cube.FBX", L"red.PNG");
+	ourGame.addObject("Ground.FBX", L"ground.png");
+	ourGame.addObject("Cube2.FBX", L"red.PNG");
 
 	//create the main message loop
 	MSG msg;
@@ -68,12 +51,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		//else we now can generate our code for directX
 		/*Begin Scene Render Code*/
-		//render();
 		ourGame.render();
 	}
-
-	//we have exitted. Clean up after ourselves
-	//cleanD3D();
 
 	//end the program
 	return msg.message;
@@ -110,6 +89,32 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			case PANDOWN:
 				ourGame.cam.rotateVertical(-1);
 				break;
+				//character movement
+			case UP:
+				ourGame.elements.at(0).moveForward();
+				break;
+			case DOWN:
+				ourGame.elements.at(0).moveBackward();
+				break;
+			case RIGHT:
+				ourGame.elements.at(0).moveRight();
+				break;
+			case LEFT:
+				ourGame.elements.at(0).moveLeft();
+				break;
+			case TURN_RIGHT:
+				ourGame.elements.at(0).turnRight();
+				break;
+			case TURN_LEFT:
+				ourGame.elements.at(0).turnLeft();
+				break;
+			case JUMP:
+				ourGame.elements.at(0).jump();
+				break;
+			case FALL:
+				ourGame.elements.at(0).fall();
+				break;
+
 			}
 			break;
 

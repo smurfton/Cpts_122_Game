@@ -1,5 +1,7 @@
 #include "Small_Scene_Render.h"
 
+extern Game ourGame;
+
 Camera::Camera() {
 
 	d3d_device = NULL;
@@ -111,6 +113,9 @@ void Camera::update() {
 	D3DXMATRIX viewMatrix;
 	D3DXMATRIX lensMatrix;
 
+	//set the lookAt position to be the character position
+	lookAt = ourGame.elements.at(0).getLocation();
+
 	D3DXMatrixLookAtLH(&viewMatrix,
 					   &D3DXVECTOR3 (location.x, location.y, location.z),    // the camera position
 					   &D3DXVECTOR3 (lookAt.x, lookAt.y, lookAt.z),    // the look-at position
@@ -188,6 +193,13 @@ void Camera::rotateVertical(float angleUp) {
 	float currentAngle = 0, newAngle = 0;
 	Position newLocation;
 
+	Vector tempV;
+	tempV.x = location.x - lookAt.x;
+	tempV.y = location.y - lookAt.y;
+	tempV.z = location.z - lookAt.z;
+
+	float magnitude = calculateMagnitude(tempV);
+
 	if ((location.x-lookAt.x) > 0) {
 		currentAngle = asin((location.y-lookAt.y)/sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)));
 	} else if (location.x-lookAt.x == 0) {
@@ -204,10 +216,10 @@ void Camera::rotateVertical(float angleUp) {
 	//now add in the new rotation
 	newAngle = currentAngle + D3DXToRadian(angleUp);
 
-	//now recalculate the locations. z is unchanged
-	newLocation.z = location.z;
+	//now recalculate the locations.
 	newLocation.x = cos(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)) + lookAt.x;
 	newLocation.y = sin(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)) + lookAt.y;
+	newLocation.z = location.z;
 
 	//set the location
 	location = newLocation;

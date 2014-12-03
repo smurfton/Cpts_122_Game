@@ -43,6 +43,10 @@ using std::fstream;
 #define PANUP 'i'
 #define PANDOWN 'k'
 
+//physics binds
+#define MAX_ACC 50
+#define MAX_VEL 50
+
 //not sure why we need this to be honest
 #pragma comment (lib, "d3d9.lib")
 #pragma comment (lib, "d3dx9.lib")
@@ -66,11 +70,18 @@ typedef struct POSITION {
 
 //this struct contains information about the state of each object
 typedef struct TRANSFORMATION {
-	Position location;
-	Vector normalVector;
-	float rotation;
-	float scale;
+	Vector translation, rotation, scaling;
 } Transformation;
+
+//a struct containing velocity information
+typedef struct PHYSICS_PROPERTIES {
+	Vector velocity;
+	Vector acceleration;
+} PhysicsProperties;
+
+typedef struct CUBE {
+	Vertex vertices[8];
+} Cube;
 
 
 /*function prototypes*/
@@ -79,7 +90,6 @@ typedef struct TRANSFORMATION {
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam); 
 
 //FBX File extraction function
-HRESULT loadFBX (vector<Vertex> *pVertexVector, char *pFileName);
 void setTextureGradient(vector<Vertex> &v1);
 
 //vector utility functions
@@ -88,15 +98,16 @@ void translate(vector<Vertex> &v1, char dir, float amount);
 void scale(vector<Vertex> &v1, float factor);
 void transformVector(Transformation transform, vector<Vertex> &v1, vector<Vertex> &v2);
 void translate(vector<Vertex> &v1, vector<Vertex> &v2, Position newLocation);
-Transformation calculateTransform(Position desiredLocation, Position desiredOrientation, float scale);
+//Transformation calculateTransform(Position desiredLocation, Position desiredOrientation, float scale);
 void copyVector (vector<Vertex> &v1, vector<Vertex> &v2);
 void calculateNormal(vector<Vertex> &v1);
 float calculateMagnitude(Vector v1);
 Vector scaleVector(Vector v1, float length);
+Cube transformHitBox(Cube box, Transformation transform);
+bool checkVerticesCube(Cube c1, Cube c2);
 
 //include the classes
 #include "Object.h"
-#include "Clock.h"
 #include "Player.h"
 #include "Camera.h"
 #include "Game.h"
