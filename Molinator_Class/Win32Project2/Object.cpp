@@ -147,6 +147,7 @@ void Object::update() {
 
 	//reset motion
 	setProposedMotion();
+	//update physics
 
 
 	void *pVoid;
@@ -200,19 +201,19 @@ void Object::updatePhysics() {
 
 	//first, check accelerations and use these to adjust the velocity
 	if (motion.acceleration.x != 0) {
-		motion.velocity.x += .1 * motion.acceleration.x;
+		motion.velocity.x += motion.acceleration.x;
 		//dampen
 		motion.acceleration.x *= .65;
 	}
 	if (motion.acceleration.y != 0) {
-		motion.velocity.y += .1 * motion.acceleration.y;
+		motion.velocity.y +=  motion.acceleration.y;
 		//dampen
 		if (motion.acceleration.y != -9.81f) {
 			motion.acceleration.y = (motion.acceleration.y+9.81) * .95 - 9.81;
 		}
 	}
 	if (motion.acceleration.z != 0) {
-		motion.velocity.z += .1 * motion.acceleration.z;
+		motion.velocity.z +=  motion.acceleration.z;
 		//dampen
 		motion.acceleration.z *= .65;
 
@@ -220,21 +221,21 @@ void Object::updatePhysics() {
 
 	//apply velocity to transformation
 	if (motion.velocity.x != 0) {
-		proposedMovement.translation.x += .1 * motion.velocity.x;
+		proposedMovement.translation.x += .01 * motion.velocity.x;
 		//dampen
-		motion.velocity.x *= .9;
+		motion.velocity.x *= .75;
 	}
 	
 	if (motion.velocity.y != 0) {
-		proposedMovement.translation.y += .1 * motion.velocity.y;
+		proposedMovement.translation.y += .01 * motion.velocity.y;
 		//dampen
-		motion.velocity.y *= .9;
+		motion.velocity.y *= .75;
 	}
 	
 	if (motion.velocity.z != 0) {
-		proposedMovement.translation.z += .1 * motion.velocity.z;
+		proposedMovement.translation.z += .01 * motion.velocity.z;
 		//dampen
-		motion.velocity.z *= .9;
+		motion.velocity.z *= .75;
 	}
 
 
@@ -442,105 +443,12 @@ bool Object::hasMoved() {
 	return hasIt;
 
 }
-void Object::moveForward() {
-
-	//calculate the forward vector position based on rotation
-	Vector normal;
-	normal.x = 1;
-	normal.y = 0;
-	normal.z = 0;
-
-	//vector only has Y and Z components
-	//rotate the vector about the Y axis
-	float rotation = transform.rotation.y;
-	rotation = D3DXToRadian(rotation);
-
-	normal.x = cos(rotation);
-	normal.z = sin(rotation);
-
-	//apportion acceleration equal to magnitude of normal vectors
-	motion.acceleration.x += 10*normal.x;
-	motion.acceleration.z += 10*normal.z;
-
-}
-void Object::moveBackward() {
-	//calculate the forward vector position based on rotation
-	Vector normal;
-	normal.x = 1;
-	normal.y = 0;
-	normal.z = 0;
-
-	//vector only has Y and Z components
-	//rotate the vector about the Y axis
-	float rotation = transform.rotation.y;
-	rotation = D3DXToRadian(rotation);
-
-	normal.x = cos(rotation);
-	normal.z = sin(rotation);
-
-	//apportion acceleration equal to magnitude of normal vectors
-	motion.acceleration.x -= 10*normal.x;
-	motion.acceleration.z -= 10*normal.z;
-}
-void Object::moveLeft() {
-	//calculate the forward vector position based on rotation
-	Vector normal;
-	normal.x = 1;
-	normal.y = 0;
-	normal.z = 0;
-
-	//vector only has Y and Z components
-	//rotate the vector about the Y axis
-	float rotation = transform.rotation.y;
-	rotation = D3DXToRadian(rotation+90);
-
-	normal.x = cos(rotation);
-	normal.z = sin(rotation);
-
-	//assign acceleration with respect to this information
-	motion.acceleration.x = 10*normal.x;
-	motion.acceleration.z = 10*normal.z;
-}
-void Object::moveRight() {
-	//calculate the forward vector position based on rotation
-	Vector normal;
-	normal.x = 1;
-	normal.y = 0;
-	normal.z = 0;
-
-	//vector only has Y and Z components
-	//rotate the vector about the Y axis
-	float rotation = transform.rotation.y;
-	rotation = D3DXToRadian(rotation-90);
-
-	normal.x = cos(rotation);
-	normal.z = sin(rotation);
-
-	//assign acceleration with respect to this information
-	motion.acceleration.x = 10*normal.x;
-	motion.acceleration.z = 10*normal.z;
-}
-void Object::turnLeft() {
-	proposedMovement.rotation.y += 5;
-
-}
-void Object::turnRight() {
-	proposedMovement.rotation.y -= 5;
-
-}
-void Object::jump() {
-	//if (motion.acceleration.y == -9.81f) {
-		motion.acceleration.y += 20;
-	//}
-}
-void Object::fall() {
-	proposedMovement.translation.y -= .1;
-}
 Position Object::getLocation() {
 	return transform.translation;
 }
 Transformation Object::getValidTransformations() {
 	Transformation temp, okayTransform = transform;
+	float allowedValue = 0;
 
 	//check translations
 	//x
@@ -548,8 +456,19 @@ Transformation Object::getValidTransformations() {
 		temp = transform;
 		temp.translation.x = proposedMovement.translation.x; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
+
 		if (ourGame.checkCollision(box, ID) == false) { //check collision
 			okayTransform.translation.x = temp.translation.x; //if no collision, apply transform
+		} else {
+			//if there is a collision, velocity in this direction should be set to 0
+			motion.velocity.x = 0;
+			//scale  and try to move a bit to stop glitchiness
+			proposedMovement.translation.x = transform.translation.x + .3 * (proposedMovement.translation.x - transform.translation.x); //move it down by a small amount
+			temp.translation.x = proposedMovement.translation.x; //transform to test
+			box = transformHitBox(untransformedBox, temp); //transform hitbox
+			if ((ourGame.checkCollision(box, ID) == false)) {
+				okayTransform.translation.x = temp.translation.x; //if no collision, apply transform
+			}
 		}
 	}
 
@@ -560,6 +479,16 @@ Transformation Object::getValidTransformations() {
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (ourGame.checkCollision(box, ID) == false) { //check collision
 			okayTransform.translation.y = temp.translation.y; //if no collision, apply transform
+		} else {
+			//if there is a collision, velocity in this direction should be set to 0
+			motion.velocity.y = 0;
+			//scale  and try to move a bit to stop glitchiness
+			proposedMovement.translation.y = transform.translation.y + .3 * (proposedMovement.translation.y - transform.translation.y); //move it down by a small amount
+			temp.translation.y = proposedMovement.translation.y; //transform to test
+			box = transformHitBox(untransformedBox, temp); //transform hitbox
+			if ((ourGame.checkCollision(box, ID) == false)) {
+				okayTransform.translation.y = temp.translation.y; //if no collision, apply transform
+			}
 		}
 	}
 
@@ -570,7 +499,28 @@ Transformation Object::getValidTransformations() {
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (ourGame.checkCollision(box, ID) == false) { //check collision
 			okayTransform.translation.z = temp.translation.z; //if no collision, apply transform
+		} else {
+			//if there is a collision, velocity in this direction should be set to 0
+			motion.velocity.z = 0;
+
+			//scale  and try to move a bit to stop glitchiness
+			proposedMovement.translation.z = transform.translation.z + .3 * (proposedMovement.translation.z - transform.translation.z); //move it down by a small amount
+			temp.translation.z = proposedMovement.translation.z; //transform to test
+			box = transformHitBox(untransformedBox, temp); //transform hitbox
+			if ((ourGame.checkCollision(box, ID) == false)) {
+				okayTransform.translation.z = temp.translation.z; //if no collision, apply transform
+			}
 		}
+		
+		/* else {
+			//scale  and retry
+			proposedMovement.translation.z = transform.translation.z + .01 * (proposedMovement.translation.z - transform.translation.z); //move it down by a small amount
+			temp.translation.z = proposedMovement.translation.z; //transform to test
+			box = transformHitBox(untransformedBox, temp); //transform hitbox
+			if ((ourGame.checkCollision(box, ID) == false)) {
+				okayTransform.translation.z = temp.translation.z; //if no collision, apply transform
+			}
+		}*/
 	}
 
 	//check scales
@@ -634,7 +584,6 @@ Transformation Object::getValidTransformations() {
 			okayTransform.rotation.z = temp.rotation.z; //if no collision, apply transform
 		}
 	}
-
 	return okayTransform;
 }
 void Object::capPhysics() {
@@ -642,7 +591,7 @@ void Object::capPhysics() {
 
 	//bind the acceleration
 	if (motion.acceleration.x > MAX_ACC) {
-		motion.acceleration.x == MAX_ACC;
+		motion.acceleration.x = MAX_ACC;
 	} else if (motion.acceleration.x < -MAX_ACC) {
 		motion.acceleration.x = -MAX_ACC;
 	}
@@ -659,7 +608,7 @@ void Object::capPhysics() {
 
 	//bind the velocity
 	if (motion.velocity.x > MAX_VEL) {
-		motion.velocity.x == MAX_VEL;
+		motion.velocity.x = MAX_VEL;
 	} else if (motion.velocity.x < -MAX_VEL) {
 		motion.velocity.x = -MAX_VEL;
 	}
@@ -673,4 +622,8 @@ void Object::capPhysics() {
 	} else if (motion.velocity.z < -MAX_VEL) {
 		motion.velocity.z = -MAX_VEL;
 	}
+}
+
+float Object::getYVel() {
+	return motion.velocity.y;
 }

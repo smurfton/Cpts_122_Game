@@ -45,7 +45,8 @@ using std::fstream;
 
 //physics binds
 #define MAX_ACC 50
-#define MAX_VEL 50
+#define MAX_VEL 150
+#define MOVE_SPEED 30
 
 //not sure why we need this to be honest
 #pragma comment (lib, "d3d9.lib")
@@ -106,6 +107,8 @@ Vector scaleVector(Vector v1, float length);
 Cube transformHitBox(Cube box, Transformation transform);
 bool checkVerticesCube(Cube c1, Cube c2);
 
+//forward declaration
+class Game;
 //include the classes
 #include "Object.h"
 #include "Player.h"

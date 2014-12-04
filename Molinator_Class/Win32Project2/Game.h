@@ -21,6 +21,7 @@ public:
 	void populateElements();
 
 	bool checkCollision(Cube transformedHitBox, int ID);
+	//void checkCollision(Object &moving);
 
 private:
 	string elementsFileName;

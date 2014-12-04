@@ -32,7 +32,6 @@ void scale(vector<Vertex> &v1, vector<Vertex> &v2, Vector factor) {
 	}
 }
 
-//current does not work!
 void rotate(vector<Vertex> &v1, vector<Vertex> &v2, Vector rotation) {
 
 	float magnitude = 0, currentAngle = 0, newAngle = 0;
@@ -300,12 +299,13 @@ Vector scaleVector(Vector v1, float length) {
 
 //returns true if the objects collide
 bool checkVerticesCube(Cube c1, Cube c2) {
-	bool collision = false;
+	bool collision = false, collX = false, collY = false, collZ = false;
 	//pick a vertice to serve as the origin of the new coordinate system
 	Vertex v1 = c1.vertices[0]; //origin
 	Vertex v3 = c1.vertices[4]; //unit X point
 	Vertex v4 = c1.vertices[1]; //unit Z point
 	Vertex v2 = c1.vertices[2]; //unit Y point
+	vector<Vector> collision2Sides;
 
 	Vertex point;
 
@@ -344,8 +344,86 @@ bool checkVerticesCube(Cube c1, Cube c2) {
 		components.y = (point.x*uY.x + point.y*uY.y + point.z*uY.z)/ (uY.x*uY.x + uY.y*uY.y + uY.z*uY.z);
 		components.z = (point.x*uZ.x + point.y*uZ.y + point.z*uZ.z)/ (uZ.x*uZ.x + uZ.y*uZ.y + uZ.z*uZ.z);
 
-		if (components.x >= 0 && components.x <= 1 && components.y <= 1 && components.y >= 0 && components.z >= 0 && components.z <= 1) { //if the componenets are all greater than 0 or less than 1, collision
-			collision = true;
+		if (components.x > 0 && components.x < 1 ) {
+			collX = true;
+		} else {
+			collX = false;
+		}
+
+		if (components.y < 1 && components.y > 0) { //if the componenets are all greater than 0 or less than 1, collision
+			collY = true;
+		} else {
+			collY = false;
+		}
+
+		if (components.z > 0 && components.z < 1) {
+			collZ = true;
+		} else {
+			collZ = false;
+		}
+
+		//if the point is atleast 2 collision axes, we need to analyze further
+		if ((collX + collY + collZ) >= 2) {
+
+			//assign the side of two collisions into our Vector construction
+			collision2Sides.push_back(components);
+
+			//if all three are true, there is a collision
+			if ((collX + collY + collZ) == 3) {
+				collision = true;
+			}
+		}
+	}
+
+	int axis = 0, axis2 = 0;
+
+	//check for possible collision of 2 axes
+	if (collision == false && collision2Sides.size() != 0) {
+		//check if vertices are drawn on opposite sides of the cubes
+
+		//check each point
+
+		//axis code: 1 = x-axis, 2 = y-axis, 3 = z-axis, negative is the negative side
+		for (int i = 0; i < collision2Sides.size(); i++) {
+
+			//find the component of vector at i that isn't in the cube
+			if (collision2Sides.at(i).x <= 0) {
+				axis = -1;
+			} else if(collision2Sides.at(i).x >= 1) {
+				axis = 1;
+			} else if(collision2Sides.at(i).y >= 1) {
+				axis = 2;
+			} else if(collision2Sides.at(i).y <= 0) {
+				axis = -2;
+			} else if(collision2Sides.at(i).z >= 1) {
+				axis = 3;
+			} else if(collision2Sides.at(i).z <= 0) {
+				axis = -3;
+			}
+
+			//check each other point
+			for (int j = 0; j < collision2Sides.size(); j++) {
+
+				//find the component of vector at j that isnt in the cube
+				if (collision2Sides.at(j).x <= 0) {
+					axis2 = -1;
+				} else if(collision2Sides.at(j).x >= 1) {
+					axis2 = 1;
+				} else if(collision2Sides.at(j).y >= 1) {
+					axis2 = 2;
+				} else if(collision2Sides.at(j).y <= 0) {
+					axis2 = -2;
+				} else if(collision2Sides.at(j).z >= 1) {
+					axis2 = 3;
+				} else if(collision2Sides.at(j).z <= 0) {
+					axis2 = -3;
+				}
+
+				//if they are opposite sides, we have collision
+				if (axis == -1*axis2) {
+					collision = true;
+				}
+			}
 		}
 	}
 

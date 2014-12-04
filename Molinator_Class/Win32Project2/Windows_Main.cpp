@@ -30,8 +30,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	ourGame.initialize(hWnd);
 	//add objects to the game
 
-	//ourGame.addObject("Person.FBX", L"red.PNG");
-	ourGame.addObject("Cube.FBX", L"red.PNG");
+	ourGame.addObject("Person.FBX", L"red.PNG");
+	//ourGame.addObject("Cube.FBX", L"red.PNG");
 	ourGame.addObject("Ground.FBX", L"ground.png");
 	ourGame.addObject("Cube2.FBX", L"red.PNG");
 
@@ -109,7 +109,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 				ourGame.elements.at(0).turnLeft();
 				break;
 			case JUMP:
-				ourGame.elements.at(0).jump();
+				if (ourGame.elements.at(0).getYVel() == 0) {
+					ourGame.elements.at(0).jump();
+				}
 				break;
 			case FALL:
 				ourGame.elements.at(0).fall();

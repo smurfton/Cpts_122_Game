@@ -163,3 +163,38 @@ bool Game::checkCollision(Cube transformedHitBox, int ID) {
 
 	return collision;
 }
+
+//rewrite check collision function
+/*void Game::checkCollision(Object &moving) {
+
+
+	moving.box = transformHitBox(moving.box, moving.transform);
+
+	for (int i = 0; i < elements.size(); i++) {
+
+		//ensure we are not checking if an object is colliding with itself
+		if (elements.at(i).getID() != moving.ID) {
+
+			//check for collision
+			while (!(checkVerticesCube(elements.at(i).getHitBox(), moving.box) || checkVerticesCube(moving.box, elements.at(i).getHitBox()))) {
+				
+				//if there is a collision, calculate how far we can go
+				moving.proposedMovement.translation.x -= .1 * (moving.proposedMovement.translation.x - moving.transform.translation.x);
+				moving.proposedMovement.translation.y -= .1 * (moving.proposedMovement.translation.y - moving.transform.translation.y);
+				moving.proposedMovement.translation.z -= .1 * (moving.proposedMovement.translation.z - moving.transform.translation.z);
+
+				
+				moving.proposedMovement.rotation.x -= .1 * (moving.proposedMovement.rotation.x - moving.transform.rotation.x);
+				moving.proposedMovement.rotation.y -= .1 * (moving.proposedMovement.rotation.y - moving.transform.rotation.y);
+				moving.proposedMovement.rotation.z -= .1 * (moving.proposedMovement.rotation.z - moving.transform.rotation.z);
+				
+				moving.proposedMovement.scaling.x -= .1 * (moving.proposedMovement.scaling.x - moving.transform.scaling.x);
+				moving.proposedMovement.scaling.y -= .1 * (moving.proposedMovement.scaling.y - moving.transform.scaling.y);
+				moving.proposedMovement.scaling.z -= .1 * (moving.proposedMovement.scaling.z - moving.transform.scaling.z);
+				//while loop
+				//try a proposed movement slightly less
+				moving.box = transformHitBox(moving.box, moving.transform);
+			}
+		}
+	}
+}*/

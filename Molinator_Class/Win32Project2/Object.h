@@ -14,6 +14,7 @@ public:
 	Cube getHitBox();
 	int getID();
 	Position getLocation();
+	float getYVel();
 
 	//general functionality
 	void update();
@@ -38,7 +39,7 @@ public:
 	void turnLeft();
 	void turnRight();
 	void jump();
-	void fall();
+	void fall(); 
 
 	Transformation getValidTransformations();
 
