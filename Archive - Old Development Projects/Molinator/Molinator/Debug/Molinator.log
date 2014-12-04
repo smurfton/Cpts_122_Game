@@ -1,0 +1,32 @@
+﻿Build started 11/25/2014 9:00:07 PM.
+     1>Project "C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator\Molinator\Molinator.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt FBX_Extraction.cpp Game.cpp Main_Window.cpp Model_Initilization.cpp Object.cpp Vector_Resources.cpp
+         Vector_Resources.cpp
+     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator\molinator\vector_resources.cpp(6): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator\molinator\vector_resources.cpp(16): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator\molinator\vector_resources.cpp(32): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator\molinator\vector_resources.cpp(49): warning C4018: '<' : signed/unsigned mismatch
+         Main_Window.cpp
+         Game.cpp
+         Generating Code...
+         Compiling...
+         Object.cpp
+     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator\molinator\object.cpp(76): warning C4244: '=' : conversion from 'wchar_t' to 'char', possible loss of data
+     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator\molinator\object.cpp(79): warning C4018: '<' : signed/unsigned mismatch
+         Model_Initilization.cpp
+         FBX_Extraction.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator\Debug\Molinator.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\lib\vs2012\x86\debug" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86" libfbxsdk.lib d3dx9.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator\Debug\Molinator.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator\Debug\Molinator.lib" /MACHINE:X86 Debug\FBX_Extraction.obj
+         Debug\Game.obj
+         Debug\Main_Window.obj
+         Debug\Model_Initilization.obj
+         Debug\Object.obj
+         Debug\Vector_Resources.obj
+         Molinator.vcxproj -> C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator\Debug\Molinator.exe
+     1>Done Building Project "C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator\Molinator\Molinator.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:26.65

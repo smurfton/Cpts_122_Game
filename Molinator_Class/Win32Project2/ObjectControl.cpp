@@ -89,7 +89,7 @@ void Object::turnRight() {
 }
 void Object::jump() {
 	//if (motion.acceleration.y == -9.81f) {
-		motion.velocity.y += 100;
+		motion.velocity.y += 140;
 	//}
 }
 void Object::fall() {
