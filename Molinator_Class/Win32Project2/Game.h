@@ -14,8 +14,8 @@ public:
 	~Game(); //deconstruct
 
 	//general functionality
-	void addObject(char verticeFileName[MAX_FILE_LENGTH]);
-	void addCharacter(char verticeFileName[MAX_FILE_LENGTH]);
+	void addObject(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color);
+	void addCharacter(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color);
 	void render();
 	void initializeLight();
 	void initializeMaterial();
@@ -24,6 +24,7 @@ public:
 
 	//bool checkCollision(Cube transformedHitBox, int ID);
 	//void checkCollision(Object &moving);
+	void updateCameraLight();
 
 private:
 	string elementsFileName;

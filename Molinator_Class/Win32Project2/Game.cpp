@@ -88,15 +88,15 @@ Game::~Game() { //deconstruct
 }
 
 //general functionality
-void Game::addObject(char verticeFileName[MAX_FILE_LENGTH]) {
+void Game::addObject(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color) {
 	//create the new object
-	Object newObject(elements.size(), verticeFileName, &d3d_device);
+	Object newObject(elements.size(), verticeFileName, &d3d_device, color);
 	//push the object onto the vector
 	elements.push_back(newObject);
 }
-void Game::addCharacter(char verticeFileName[MAX_FILE_LENGTH]) {
+void Game::addCharacter(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color) {
 	//create the new character
-	Character newObject(characters.size(), verticeFileName, &d3d_device);
+	Character newObject(characters.size(), verticeFileName, &d3d_device, color);
 	//push the object onto the vector
 	characters.push_back(newObject);
 }
@@ -126,6 +126,7 @@ void Game::render() {
 	}
 	
 	//update the camera
+	updateCameraLight();
 	cam.update();
 
 	//end the scene
@@ -140,7 +141,7 @@ void Game::initializeLight() {
 
     SecureZeroMemory(&light, sizeof(light));    // clear out the light struct for use
     light.Type = D3DLIGHT_DIRECTIONAL;    // make the light type 'directional light'
-    light.Diffuse = D3DXCOLOR(0.5f, 1.0f, 1.0f, 1.0f);    // set the light's color
+    light.Diffuse = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);    // set the light's color
     D3DXVECTOR3 vecDir = D3DXVECTOR3(-1.0f, -0.3f, -1.0f);
 	
     D3DXVec3Normalize( (D3DXVECTOR3*)&light.Direction, &vecDir );
@@ -169,3 +170,18 @@ void Game::initializeLight() {
 
 	return collision;
 }*/
+void Game::updateCameraLight() {
+	D3DLIGHT9 light;
+
+    ZeroMemory(&light, sizeof(light));
+    light.Type = D3DLIGHT_POINT;    // make the light type 'point light'
+    light.Diffuse = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+	light.Position = D3DXVECTOR3(cam.getLocation().x, cam.getLocation().y, cam.getLocation().z);
+    light.Range = 100.0f;    // a range of 100
+    light.Attenuation0 = 2.0f;    // slight amount of constant light
+    light.Attenuation1 = 0.0f;    // only .125 inverse attenuation
+    light.Attenuation2 = 0.0f;    // no square inverse attenuation
+
+    d3d_device->SetLight(1, &light);
+    d3d_device->LightEnable(1, TRUE);
+}

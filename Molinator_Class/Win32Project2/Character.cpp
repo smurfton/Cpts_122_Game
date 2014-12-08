@@ -3,7 +3,7 @@
 extern Game ourGame;
 
 //initializers
-Character::Character(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device) {
+Character::Character(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device, _D3DCOLORVALUE color) {
 	//initialize the object
 	d3d_device = device;
 
@@ -22,8 +22,8 @@ Character::Character(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEV
 	//setTextureGradient(model); //initialize the texture gradient
 
 	SecureZeroMemory(&material, sizeof(material));
-	material.Ambient = D3DXCOLOR(1.0, 1.0, 1.0, 1.0);
-	material.Diffuse = D3DXCOLOR(1.0, 1.0, 1.0, 1.0);
+	material.Ambient = color;
+	material.Diffuse = color;
 
 	triangleCount = model.size()/3; //count triangles in our model
 
@@ -483,7 +483,6 @@ void Character::setProposedMotion() {
 float Character::getYVel() {
 	return motion.velocity.y;
 }
-
 bool Character::checkCollision() {
 
 	bool collision = false;

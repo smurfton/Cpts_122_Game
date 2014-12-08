@@ -4,7 +4,7 @@
 class Object {
 public:
 	Object();
-	Object(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device);
+	Object(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device, _D3DCOLORVALUE color);
 	~Object(); //free direct3D resources
 	Object(const Object &copy); //copy constructor
 

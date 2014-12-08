@@ -30,10 +30,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	ourGame.initialize(hWnd);
 	//add objects to the game
 
-	ourGame.addCharacter("Person.FBX");
+	ourGame.addCharacter("Person.FBX", D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 	//ourGame.addObject("Cube.FBX", L"red.PNG");
-	ourGame.addObject("Ground.FBX");
-	ourGame.addObject("Cube2.FBX");
+	ourGame.addObject("Ground.FBX", D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+	ourGame.addObject("Cube2.FBX", D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
 
 	//create the main message loop
 	MSG msg;

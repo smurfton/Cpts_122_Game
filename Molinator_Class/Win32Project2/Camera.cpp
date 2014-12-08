@@ -114,7 +114,7 @@ void Camera::update() {
 	D3DXMATRIX lensMatrix;
 
 	//set the lookAt position to be the character position
-	lookAt = ourGame.elements.at(0).getLocation();
+	lookAt = ourGame.characters.at(0).getLocation();
 
 	D3DXMatrixLookAtLH(&viewMatrix,
 					   &D3DXVECTOR3 (location.x, location.y, location.z),    // the camera position

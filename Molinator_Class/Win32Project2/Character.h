@@ -4,7 +4,7 @@
 class Character : public Object {
 public:
 	Character();
-	Character(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device);
+	Character(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device, _D3DCOLORVALUE color);
 	Character (const Character &copy);
 	
 	//setters

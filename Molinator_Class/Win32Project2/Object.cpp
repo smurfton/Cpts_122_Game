@@ -5,7 +5,7 @@ extern Game ourGame;
 Object::Object() {
 	//do nothing
 }
-Object::Object(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device) {
+Object::Object(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device, _D3DCOLORVALUE color) {
 	//initialize the object
 	d3d_device = device;
 
@@ -24,8 +24,8 @@ Object::Object(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *
 	//setTextureGradient(model); //initialize the texture gradient
 
 	SecureZeroMemory(&material, sizeof(material));
-	material.Ambient = D3DXCOLOR(1.0, 1.0, 1.0, 1.0);
-	material.Diffuse = D3DXCOLOR(1.0, 1.0, 1.0, 1.0);
+	material.Ambient = color;
+	material.Diffuse = color;
 
 	triangleCount = model.size()/3; //count triangles in our model
 
