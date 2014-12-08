@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph DataVirtualized="True" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@1)" Bounds="0,0,603.663333333333,34" ErrorLevel="Error" ErrorMessage="Build error on Project: 'C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\Debug\Molinator.exe', there may be further information in the Error List." FilePath="$(595a23f7-1a88-404b-8654-3f9d9770acf5.OutputPath)" Label="C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\Debug\Molinator.exe" />
+  </Nodes>
+  <Links />
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="DataVirtualized" Label="Data Virtualized" Description="If true, the graph can contain nodes and links that represent data for virtualized nodes/links (i.e. not actually created in the graph)." DataType="System.Boolean" />
+    <Property Id="ErrorLevel" Label="Error Level" Description="Used to associate an error level with a node or link in the graph" Group="Analysis" DataType="Microsoft.VisualStudio.Progression.ErrorLevel" />
+    <Property Id="ErrorMessage" Label="Error" Description="Error" DataType="System.String" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(595a23f7-1a88-404b-8654-3f9d9770acf5.OutputPathUri)" />
+  </IdentifierAliases>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Error" ValueLabel="Error Level">
+      <Condition Expression="HasValue('ErrorLevel')" />
+      <Setter Property="Icon" Value="Node.Error" />
+    </Style>
+  </Styles>
+  <Paths>
+    <Path Id="595a23f7-1a88-404b-8654-3f9d9770acf5.OutputPath" Value="C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\Debug\Molinator.exe" />
+    <Path Id="595a23f7-1a88-404b-8654-3f9d9770acf5.OutputPathUri" Value="file:///C:/Users/Ryan Summers/Documents/Repositories/Cpts_122_Game/Molinator_Class/Debug/Molinator.exe" />
+  </Paths>
+</DirectedGraph>

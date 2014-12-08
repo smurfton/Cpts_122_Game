@@ -32,6 +32,7 @@ void Game::initialize(HWND window) {
 	d3d_device->SetRenderState(D3DRS_ZENABLE, TRUE);    // turn on the z-buffer
 
 	d3d_device->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_XRGB(50, 50, 50));    // ambient light
+	d3d_device->SetRenderState(D3DRS_NORMALIZENORMALS, TRUE); //normalize the normals
 
 	//initialize light
 	initializeLight();
@@ -79,11 +80,6 @@ Game::Game(HWND window) {
 }
 Game::~Game() { //deconstruct
 
-	//free all the objects
-	/*for (int i = 0; i < elements.size(); i++) {
-		elements.at(i).~Object(); //release each elements dependencies
-	}*/
-
 	//free the device
 	d3d_device->Release();
 
@@ -92,11 +88,17 @@ Game::~Game() { //deconstruct
 }
 
 //general functionality
-void Game::addObject(char verticeFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH]) {
+void Game::addObject(char verticeFileName[MAX_FILE_LENGTH]) {
 	//create the new object
-	Object newObject(elements.size(), verticeFileName, textureFileName, &d3d_device);
+	Object newObject(elements.size(), verticeFileName, &d3d_device);
 	//push the object onto the vector
 	elements.push_back(newObject);
+}
+void Game::addCharacter(char verticeFileName[MAX_FILE_LENGTH]) {
+	//create the new character
+	Character newObject(characters.size(), verticeFileName, &d3d_device);
+	//push the object onto the vector
+	characters.push_back(newObject);
 }
 void Game::render() {
 	d3d_device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0); //clear the buffer
@@ -109,17 +111,21 @@ void Game::render() {
 	d3d_device->SetFVF(CUSTOMFVF);
 
 	/*Begin transformation pipeline! Please move to separate functions to simplify*/
-	//update the camera
 
 	//draw all the elements of the game
 	for (int i = 0; i < elements.size(); i++) {
-
-		//update element
-		elements.at(i).update();
-
 		//draw element
+		elements.at(i).update();
 		elements.at(i).drawObject();
 	}
+
+	//draw all the characters
+	for (int i = 0; i < characters.size(); i++) {
+		characters.at(i).update();
+		characters.at(i).drawObject();
+	}
+	
+	//update the camera
 	cam.update();
 
 	//end the scene
@@ -144,7 +150,7 @@ void Game::initializeLight() {
 }
 
 //function returns true if a collision occurs
-bool Game::checkCollision(Cube transformedHitBox, int ID) {
+/*bool Game::checkCollision(Cube transformedHitBox, int ID) {
 
 	bool collision = false;
 	//loop through all of the objects in the elements vector
@@ -162,39 +168,4 @@ bool Game::checkCollision(Cube transformedHitBox, int ID) {
 	}
 
 	return collision;
-}
-
-//rewrite check collision function
-/*void Game::checkCollision(Object &moving) {
-
-
-	moving.box = transformHitBox(moving.box, moving.transform);
-
-	for (int i = 0; i < elements.size(); i++) {
-
-		//ensure we are not checking if an object is colliding with itself
-		if (elements.at(i).getID() != moving.ID) {
-
-			//check for collision
-			while (!(checkVerticesCube(elements.at(i).getHitBox(), moving.box) || checkVerticesCube(moving.box, elements.at(i).getHitBox()))) {
-				
-				//if there is a collision, calculate how far we can go
-				moving.proposedMovement.translation.x -= .1 * (moving.proposedMovement.translation.x - moving.transform.translation.x);
-				moving.proposedMovement.translation.y -= .1 * (moving.proposedMovement.translation.y - moving.transform.translation.y);
-				moving.proposedMovement.translation.z -= .1 * (moving.proposedMovement.translation.z - moving.transform.translation.z);
-
-				
-				moving.proposedMovement.rotation.x -= .1 * (moving.proposedMovement.rotation.x - moving.transform.rotation.x);
-				moving.proposedMovement.rotation.y -= .1 * (moving.proposedMovement.rotation.y - moving.transform.rotation.y);
-				moving.proposedMovement.rotation.z -= .1 * (moving.proposedMovement.rotation.z - moving.transform.rotation.z);
-				
-				moving.proposedMovement.scaling.x -= .1 * (moving.proposedMovement.scaling.x - moving.transform.scaling.x);
-				moving.proposedMovement.scaling.y -= .1 * (moving.proposedMovement.scaling.y - moving.transform.scaling.y);
-				moving.proposedMovement.scaling.z -= .1 * (moving.proposedMovement.scaling.z - moving.transform.scaling.z);
-				//while loop
-				//try a proposed movement slightly less
-				moving.box = transformHitBox(moving.box, moving.transform);
-			}
-		}
-	}
 }*/

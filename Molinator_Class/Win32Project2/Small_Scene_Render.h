@@ -4,7 +4,7 @@
 //includes
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <Windows.h>
+//#include <Windows.h>
 #include <vector>
 #include <fbxsdk.h>
 #include <string>
@@ -19,7 +19,7 @@ using std::fstream;
 /*# defines*/
 #define SCREEN_WIDTH 800 //define screen width
 #define SCREEN_HEIGHT 600 //define screen height
-#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL) //this describes a vertex format, this represents XYZ coordinates
+#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_NORMAL) //this describes a vertex format, this represents XYZ coordinates
 //#define CUSTOMFVF (D3DFVF_XYZ | D3DFVF_NORMAL)
 #define MAX_FILE_LENGTH 15
 
@@ -59,8 +59,6 @@ using std::fstream;
 //the vertex of a triangle
 typedef struct VERTEX { 
 	float x, y, z;
-	//DWORD color;
-	float tx, ty;
 	D3DVECTOR normal;
 } Vertex;
 
@@ -90,9 +88,6 @@ typedef struct CUBE {
 //windows message management function
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam); 
 
-//FBX File extraction function
-void setTextureGradient(vector<Vertex> &v1);
-
 //vector utility functions
 void addVectors(vector<Vertex> &v1, vector<Vertex> &v2);
 void translate(vector<Vertex> &v1, char dir, float amount);
@@ -113,6 +108,7 @@ class Game;
 #include "Object.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Character.h"
 #include "Game.h"
 
 #endif

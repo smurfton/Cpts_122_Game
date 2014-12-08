@@ -2,14 +2,16 @@
 
 extern Game ourGame;
 
-Object::Object(int ID, char vertexFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device) {
+Object::Object() {
+	//do nothing
+}
+Object::Object(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device) {
 	//initialize the object
 	d3d_device = device;
 
 	//copy over the strings for filenames
 	for (int i = 0; i < MAX_FILE_LENGTH; i++) {
 		this->vertexFileName[i] = vertexFileName[i];
-		this->textureFileName[i] = textureFileName[i];
 	}
 
 	//initialize the ID
@@ -19,12 +21,7 @@ Object::Object(int ID, char vertexFileName[MAX_FILE_LENGTH], wchar_t textureFile
 	loadFbx(); //load vertices into model
 	generateHitBox(); //generate a hitbox for the model
 	
-	setTextureGradient(model); //initialize the texture gradient
-
-	//create the texture for the object
-	if (textureFileName != NULL) {
-		D3DXCreateTextureFromFile(*d3d_device, textureFileName, &texture); 
-	}
+	//setTextureGradient(model); //initialize the texture gradient
 
 	SecureZeroMemory(&material, sizeof(material));
 	material.Ambient = D3DXCOLOR(1.0, 1.0, 1.0, 1.0);
@@ -35,20 +32,11 @@ Object::Object(int ID, char vertexFileName[MAX_FILE_LENGTH], wchar_t textureFile
 	//create the vertex buffer for our new object
 	(*d3d_device)->CreateVertexBuffer(triangleCount*sizeof(Vertex)*3, 0, CUSTOMFVF, D3DPOOL_MANAGED, &buffer, NULL);
 
-	setProposedMotion();
-	
-	//initialize object physics
-	initializePhysics();
-
 	//copy over the transformation into the transformedModel and the vertex buffer
 	update();
 
 }
 Object::~Object() { //free direct3D resources
-	//free texture resources
-	if (texture != nullptr) {
-		texture->Release();
-	}
 	//free buffer resources
 	buffer->Release();
 }
@@ -58,9 +46,6 @@ Object::Object(const Object &copy) { //copy constructor
 	//copy over the fileNames
 	for (int i = 0; i < MAX_FILE_LENGTH; i++) {
 		vertexFileName[i] = copy.vertexFileName[i];
-		if (copy.textureFileName != NULL) {
-			textureFileName[i] = copy.textureFileName[i];
-		}
 	}
 
 	//copy over the vectors
@@ -70,8 +55,6 @@ Object::Object(const Object &copy) { //copy constructor
 		vertice.x = copy.model.at(i).x;
 		vertice.y = copy.model.at(i).y;
 		vertice.z = copy.model.at(i).z;
-		vertice.tx = copy.model.at(i).tx;
-		vertice.ty = copy.model.at(i).ty;
 		vertice.normal = copy.model.at(i).normal;
 
 		model.push_back(vertice);
@@ -80,8 +63,6 @@ Object::Object(const Object &copy) { //copy constructor
 		tVertice.x = copy.transformedModel.at(i).x;
 		tVertice.y = copy.transformedModel.at(i).y;
 		tVertice.z = copy.transformedModel.at(i).z;
-		tVertice.tx = copy.transformedModel.at(i).tx;
-		tVertice.ty = copy.transformedModel.at(i).ty;
 		tVertice.normal = copy.transformedModel.at(i).normal;
 
 		transformedModel.push_back(tVertice);
@@ -106,19 +87,8 @@ Object::Object(const Object &copy) { //copy constructor
 	//create a buffer for new object
 	(*d3d_device)->CreateVertexBuffer(triangleCount*sizeof(Vertex)*3, 0, CUSTOMFVF, D3DPOOL_MANAGED, &buffer, NULL);
 
-	//create a texture for copy
-	if (copy.textureFileName != NULL) {
-		D3DXCreateTextureFromFile(*d3d_device, textureFileName, &texture); 
-	}
-
 	//copy over the material
 	material = copy.material;
-
-	//copy over the physics properties
-	motion = copy.motion;
-
-	//initialize proposed motion
-	setProposedMotion();
 
 	//copy over ID
 	ID = copy.ID;
@@ -128,39 +98,28 @@ Object::Object(const Object &copy) { //copy constructor
 //general functionality
 void Object::update() {
 
-	//update physics
-	updatePhysics();
-
-	//get valid transformations
-	transform = getValidTransformations();
-
-	//only recalculate if the model has moved OR we are initializing them
-	if (hasMoved() || transformedModel.size() == 0) {
+	//only recalculate if we are initializing them
+	if (transformedModel.size() == 0) {
 		//apply transformations
-		transformVector(transform, model, transformedModel); //model
+		transformVector(transform, model, transformedModel); 
 
 		//calculate the vertex normals
 		calculateNormal(transformedModel);
 
-		box = transformHitBox(untransformedBox, transform); //hitbox
+		//create the hitbox
+		box = transformHitBox(untransformedBox, transform); 
+		
+		
 	}
 
-	//reset motion
-	setProposedMotion();
-	//update physics
+	//copy the information into the buffer
+		void *pVoid;
+		buffer->Lock(0,0, (void **)&pVoid, 0);
+		memcpy(pVoid, &transformedModel[0], transformedModel.size()*sizeof(Vertex));
+		buffer->Unlock();
 
-
-	void *pVoid;
-	buffer->Lock(0,0, (void **)&pVoid, 0);
-	memcpy(pVoid, &transformedModel[0], transformedModel.size()*sizeof(Vertex));
-	buffer->Unlock();
 }
 void Object::drawObject() {
-
-	//set the texture
-	if (texture != nullptr) {
-		(*d3d_device)->SetTexture(0, texture);
-	}
 
 	//set the material
 	(*d3d_device)->SetMaterial(&material);
@@ -168,77 +127,8 @@ void Object::drawObject() {
 	//set the stream source
 	(*d3d_device)->SetStreamSource(0, buffer, 0, sizeof(Vertex));
 
-	//update the camera
-	ourGame.cam.update();
-
-
 	//draw the primitive
 	(*d3d_device)->DrawPrimitive(D3DPT_TRIANGLELIST, 0, triangleCount);
-}
-void Object::initializePhysics() {
-
-	//initialize velocity
-	motion.velocity.x = 0;
-	motion.velocity.y = 0;
-	motion.velocity.z = 0;
-
-	//initialize acceleration
-	motion.acceleration.x = 0;
-
-	if (strcmp("Ground.FBX", vertexFileName) ==0 ) {
-		motion.acceleration.y = 0;
-	} else {
-		motion.acceleration.y = -9.81;
-	}
-	motion.acceleration.z = 0;
-}
-void Object::updatePhysics() {
-	//update physics
-	//affect the proposed transform
-
-	//bind physics
-	capPhysics();
-
-	//first, check accelerations and use these to adjust the velocity
-	if (motion.acceleration.x != 0) {
-		motion.velocity.x += motion.acceleration.x;
-		//dampen
-		motion.acceleration.x *= .65;
-	}
-	if (motion.acceleration.y != 0) {
-		motion.velocity.y +=  motion.acceleration.y;
-		//dampen
-		if (motion.acceleration.y != -9.81f) {
-			motion.acceleration.y = (motion.acceleration.y+9.81) * .95 - 9.81;
-		}
-	}
-	if (motion.acceleration.z != 0) {
-		motion.velocity.z +=  motion.acceleration.z;
-		//dampen
-		motion.acceleration.z *= .65;
-
-	}
-
-	//apply velocity to transformation
-	if (motion.velocity.x != 0) {
-		proposedMovement.translation.x += .01 * motion.velocity.x;
-		//dampen
-		motion.velocity.x *= .75;
-	}
-	
-	if (motion.velocity.y != 0) {
-		proposedMovement.translation.y += .01 * motion.velocity.y;
-		//dampen
-		motion.velocity.y *= .75;
-	}
-	
-	if (motion.velocity.z != 0) {
-		proposedMovement.translation.z += .01 * motion.velocity.z;
-		//dampen
-		motion.velocity.z *= .75;
-	}
-
-
 }
 void Object::loadFbx() {
 	//create our manager
@@ -417,213 +307,6 @@ Cube Object::getHitBox() {
 int Object::getID() {
 	return ID;
 }
-//setters
-void Object::setProposedMotion() {
-	/*
-	proposedMovement.rotation.x = 0;
-	proposedMovement.rotation.y = 0;
-	proposedMovement.rotation.z = 0;
-	proposedMovement.scaling.x = 1;
-	proposedMovement.scaling.y = 1;
-	proposedMovement.scaling.z = 1;
-	proposedMovement.translation.x = 0;
-	proposedMovement.translation.y = 0;
-	proposedMovement.translation.z = 0;*/
-	proposedMovement = transform;
-}
-bool Object::hasMoved() {
-	bool hasIt = false;
-	if (proposedMovement.rotation.x != 0 || proposedMovement.rotation.y != 0 || proposedMovement.rotation.z != 0) { //if it got rotated
-		hasIt = true;
-	} else if (proposedMovement.translation.x != 0 || proposedMovement.translation.y != 0 || proposedMovement.translation.z != 0) {
-		hasIt = true;
-	} else if (proposedMovement.scaling.x != 1 || proposedMovement.scaling.y != 1 || proposedMovement.scaling.z != 1) {
-		hasIt = true;
-	}
-	return hasIt;
-
-}
 Position Object::getLocation() {
 	return transform.translation;
-}
-Transformation Object::getValidTransformations() {
-	Transformation temp, okayTransform = transform;
-	float allowedValue = 0;
-
-	//check translations
-	//x
-	if (proposedMovement.translation.x != transform.translation.x ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.translation.x = proposedMovement.translation.x; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.translation.x = temp.translation.x; //if no collision, apply transform
-		} else {
-			//if there is a collision, velocity in this direction should be set to 0
-			motion.velocity.x = 0;
-			//scale  and try to move a bit to stop glitchiness
-			proposedMovement.translation.x = transform.translation.x + .3 * (proposedMovement.translation.x - transform.translation.x); //move it down by a small amount
-			temp.translation.x = proposedMovement.translation.x; //transform to test
-			box = transformHitBox(untransformedBox, temp); //transform hitbox
-			if ((ourGame.checkCollision(box, ID) == false)) {
-				okayTransform.translation.x = temp.translation.x; //if no collision, apply transform
-			}
-		}
-	}
-
-	//y
-	if (proposedMovement.translation.y != transform.translation.y ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.translation.y = proposedMovement.translation.y; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.translation.y = temp.translation.y; //if no collision, apply transform
-		} else {
-			//if there is a collision, velocity in this direction should be set to 0
-			motion.velocity.y = 0;
-			//scale  and try to move a bit to stop glitchiness
-			proposedMovement.translation.y = transform.translation.y + .3 * (proposedMovement.translation.y - transform.translation.y); //move it down by a small amount
-			temp.translation.y = proposedMovement.translation.y; //transform to test
-			box = transformHitBox(untransformedBox, temp); //transform hitbox
-			if ((ourGame.checkCollision(box, ID) == false)) {
-				okayTransform.translation.y = temp.translation.y; //if no collision, apply transform
-			}
-		}
-	}
-
-	//z
-	if (proposedMovement.translation.z != transform.translation.z ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.translation.z = proposedMovement.translation.z; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.translation.z = temp.translation.z; //if no collision, apply transform
-		} else {
-			//if there is a collision, velocity in this direction should be set to 0
-			motion.velocity.z = 0;
-
-			//scale  and try to move a bit to stop glitchiness
-			proposedMovement.translation.z = transform.translation.z + .3 * (proposedMovement.translation.z - transform.translation.z); //move it down by a small amount
-			temp.translation.z = proposedMovement.translation.z; //transform to test
-			box = transformHitBox(untransformedBox, temp); //transform hitbox
-			if ((ourGame.checkCollision(box, ID) == false)) {
-				okayTransform.translation.z = temp.translation.z; //if no collision, apply transform
-			}
-		}
-		
-		/* else {
-			//scale  and retry
-			proposedMovement.translation.z = transform.translation.z + .01 * (proposedMovement.translation.z - transform.translation.z); //move it down by a small amount
-			temp.translation.z = proposedMovement.translation.z; //transform to test
-			box = transformHitBox(untransformedBox, temp); //transform hitbox
-			if ((ourGame.checkCollision(box, ID) == false)) {
-				okayTransform.translation.z = temp.translation.z; //if no collision, apply transform
-			}
-		}*/
-	}
-
-	//check scales
-	//x
-	if (proposedMovement.scaling.x != transform.scaling.x ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.scaling.x = proposedMovement.scaling.x; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.scaling.x = temp.scaling.x; //if no collision, apply transform
-		}
-	}
-
-	//y
-	if (proposedMovement.scaling.y != transform.scaling.y ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.scaling.y = proposedMovement.scaling.y; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.scaling.y = temp.scaling.y; //if no collision, apply transform
-		}
-	}
-
-	//z	
-	if (proposedMovement.scaling.z != transform.scaling.z ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.scaling.z = proposedMovement.scaling.z; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.scaling.z = temp.scaling.z; //if no collision, apply transform
-		}
-	}
-
-	//check rotations
-	//x
-	if (proposedMovement.rotation.x != transform.rotation.x ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.rotation.x = proposedMovement.rotation.x; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.rotation.x = temp.rotation.x; //if no collision, apply transform
-		}
-	}
-
-	//y
-	if (proposedMovement.rotation.y != transform.rotation.y ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.rotation.y = proposedMovement.rotation.y; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.rotation.y = temp.rotation.y; //if no collision, apply transform
-		}
-	}
-
-	//z	
-	if (proposedMovement.rotation.z != transform.rotation.z ) { //don't check if there is no proposed movement
-		temp = transform;
-		temp.rotation.z = proposedMovement.rotation.z; //transform to test
-		box = transformHitBox(untransformedBox, temp); //transform hitbox
-		if (ourGame.checkCollision(box, ID) == false) { //check collision
-			okayTransform.rotation.z = temp.rotation.z; //if no collision, apply transform
-		}
-	}
-	return okayTransform;
-}
-void Object::capPhysics() {
-	//set bounds on physics properties
-
-	//bind the acceleration
-	if (motion.acceleration.x > MAX_ACC) {
-		motion.acceleration.x = MAX_ACC;
-	} else if (motion.acceleration.x < -MAX_ACC) {
-		motion.acceleration.x = -MAX_ACC;
-	}
-	if (motion.acceleration.y > MAX_ACC) {
-		motion.acceleration.y = MAX_ACC;
-	} else if (motion.acceleration.y < -MAX_ACC) {
-		motion.acceleration.y = -MAX_ACC;
-	}
-	if (motion.acceleration.z > MAX_ACC) {
-		motion.acceleration.z = MAX_ACC;
-	} else if (motion.acceleration.z < -MAX_ACC) {
-		motion.acceleration.z = -MAX_ACC;
-	}
-
-	//bind the velocity
-	if (motion.velocity.x > MAX_VEL) {
-		motion.velocity.x = MAX_VEL;
-	} else if (motion.velocity.x < -MAX_VEL) {
-		motion.velocity.x = -MAX_VEL;
-	}
-	if (motion.velocity.y > MAX_VEL) {
-		motion.velocity.y = MAX_VEL;
-	} else if (motion.velocity.y < -MAX_VEL) {
-		motion.velocity.y = -MAX_VEL;
-	}
-	if (motion.velocity.z > MAX_VEL) {
-		motion.velocity.z = MAX_VEL;
-	} else if (motion.velocity.z < -MAX_VEL) {
-		motion.velocity.z = -MAX_VEL;
-	}
-}
-
-float Object::getYVel() {
-	return motion.velocity.y;
 }

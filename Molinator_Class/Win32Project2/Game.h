@@ -6,6 +6,7 @@ public:
 	/*public variables*/
 	Camera cam;
 	vector<Object> elements;
+	vector<Character> characters;
 
 	/*public functions*/
 	Game ();
@@ -13,14 +14,15 @@ public:
 	~Game(); //deconstruct
 
 	//general functionality
-	void addObject(char verticeFileName[MAX_FILE_LENGTH], wchar_t textureFileName[MAX_FILE_LENGTH]);
+	void addObject(char verticeFileName[MAX_FILE_LENGTH]);
+	void addCharacter(char verticeFileName[MAX_FILE_LENGTH]);
 	void render();
 	void initializeLight();
 	void initializeMaterial();
 	void initialize(HWND window);
 	void populateElements();
 
-	bool checkCollision(Cube transformedHitBox, int ID);
+	//bool checkCollision(Cube transformedHitBox, int ID);
 	//void checkCollision(Object &moving);
 
 private:

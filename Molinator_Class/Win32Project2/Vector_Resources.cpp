@@ -255,10 +255,10 @@ void calculateNormal(vector<Vertex> &v1) {
 		normal.z = (p2.x-p1.x)*(p3.y-p1.y)-(p2.y-p1.y)*(p3.x-p1.x);
 
 		//calculate the normal length
-		length = calculateMagnitude(normal);
+		/*length = calculateMagnitude(normal);
 		normal.x /= length;
-		normal.y /= length;
-		normal.z /= length;
+		normal.y /= (length);
+		normal.z /= (length);*/
 
 		//assign the normal to each of the points
 		v1.at(3*i).normal.x = normal.x;

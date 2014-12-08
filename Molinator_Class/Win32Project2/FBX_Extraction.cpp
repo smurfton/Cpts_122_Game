@@ -73,8 +73,8 @@ void setTextureGradient(vector<Vertex> &v1) {
 	int size = v1.size();
 	for (int i = 0; i < (int)sqrt(size); i++) {
 		for (int j = 0; j < (int)sqrt(size); j++) {
-			v1.at(i*sqrt(size) + j).tx = (float)j/(float)sqrt(size);
-			v1.at(i*sqrt(size) + j).ty = (float)i/(float)sqrt(size);
+		//	v1.at(i*sqrt(size) + j).tx = (float)j/(float)sqrt(size);
+		//	v1.at(i*sqrt(size) + j).ty = (float)i/(float)sqrt(size);
 		}
 	}
 	int dataCompleted =  ((int)sqrt(size) * (int)sqrt(size));
@@ -82,7 +82,7 @@ void setTextureGradient(vector<Vertex> &v1) {
 	//loop through residual information
 	int remainder = size - dataCompleted;
 	for (int i = 0; i < remainder; i++) {
-		v1.at(dataCompleted+i).tx = 1/(i+1);
-		v1.at(dataCompleted+i).ty = i/(3*(i+1));
+	//	v1.at(dataCompleted+i).tx = 1/(i+1);
+	//	v1.at(dataCompleted+i).ty = i/(3*(i+1));
 	}
 }

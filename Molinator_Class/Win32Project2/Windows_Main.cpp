@@ -30,10 +30,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	ourGame.initialize(hWnd);
 	//add objects to the game
 
-	ourGame.addObject("Person.FBX", L"red.PNG");
+	ourGame.addCharacter("Person.FBX");
 	//ourGame.addObject("Cube.FBX", L"red.PNG");
-	ourGame.addObject("Ground.FBX", L"ground.png");
-	ourGame.addObject("Cube2.FBX", L"red.PNG");
+	ourGame.addObject("Ground.FBX");
+	ourGame.addObject("Cube2.FBX");
 
 	//create the main message loop
 	MSG msg;
@@ -91,30 +91,30 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 				break;
 				//character movement
 			case UP:
-				ourGame.elements.at(0).moveForward();
+				ourGame.characters.at(0).moveForward();
 				break;
 			case DOWN:
-				ourGame.elements.at(0).moveBackward();
+				ourGame.characters.at(0).moveBackward();
 				break;
 			case RIGHT:
-				ourGame.elements.at(0).moveRight();
+				ourGame.characters.at(0).moveRight();
 				break;
 			case LEFT:
-				ourGame.elements.at(0).moveLeft();
+				ourGame.characters.at(0).moveLeft();
 				break;
 			case TURN_RIGHT:
-				ourGame.elements.at(0).turnRight();
+				ourGame.characters.at(0).turnRight();
 				break;
 			case TURN_LEFT:
-				ourGame.elements.at(0).turnLeft();
+				ourGame.characters.at(0).turnLeft();
 				break;
 			case JUMP:
-				if (ourGame.elements.at(0).getYVel() == 0) {
-					ourGame.elements.at(0).jump();
+				if (ourGame.characters.at(0).getYVel() == 0) {
+					ourGame.characters.at(0).jump();
 				}
 				break;
 			case FALL:
-				ourGame.elements.at(0).fall();
+				ourGame.characters.at(0).fall();
 				break;
 
 			}
