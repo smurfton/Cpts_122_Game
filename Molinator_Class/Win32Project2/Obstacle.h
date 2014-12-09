@@ -9,6 +9,7 @@ public:
 	void initializePath(Vector traverse);
 	void updateVelocity();
 	void updatePosition();
+	void setLocation(float x, float y, float z);
 
 private:
 	vector<Vector> traverse;

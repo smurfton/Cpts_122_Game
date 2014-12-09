@@ -39,8 +39,6 @@ void Game::initialize(HWND window) {
 
 	//create the camera
 	cam.setDevice(&d3d_device);
-
-	elementsFileName = "elements.ali";
 }
 
 Game::Game(HWND window) { 
@@ -109,6 +107,13 @@ void Game::addObstacle(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE col
 }
 
 void Game::render() {
+	//check to see if the main character is dead
+	if (characters.at(0).getLocation().y < -30) {
+		//if they are, we need to delete the main character and readd the object
+		characters.at(0).setLocation(0,3,0);
+		
+	} 
+
 	d3d_device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0); //clear the buffer
 	d3d_device->Clear(0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0); //clear the z buffer, too
 

@@ -41,22 +41,13 @@
     <None Include="Person.FBX">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Test.FBX">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Cube.FBX">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Thing.FBX">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Cube2.FBX">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Ground.FBX">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Testcase.FBX">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -85,16 +76,5 @@
     <ClCompile Include="Overloads.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="red.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="ground.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="color.PNG">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>

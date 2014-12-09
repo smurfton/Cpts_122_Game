@@ -33,13 +33,16 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	ourGame.addCharacter("Person.FBX", D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 	//ourGame.addObject("Cube.FBX", L"red.PNG");
 	ourGame.addObject("Ground.FBX", D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	ourGame.addObject("Cube2.FBX", D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
+	//ourGame.addObject("Cube2.FBX", D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
 
 	Vector temp;
 	temp.x = 0;
-	temp.y = 1;
-	temp.z = 0;
-	ourGame.addObstacle("Cube.FBX", D3DXCOLOR(0,0,0,1), temp);
+	temp.y = 0;
+	temp.z = 5;
+	for (int i = 0; i < 10; i++) {
+		ourGame.addObstacle("Cube.FBX", D3DXCOLOR(0,.66,0,.5), temp);
+		ourGame.obstacles.at(i).setLocation(6*i, 3*i, 5*i);
+	}
 
 	//create the main message loop
 	MSG msg;

@@ -24,9 +24,6 @@
     <None Include="Cube2.FBX" />
     <None Include="Ground.FBX" />
     <None Include="Person.FBX" />
-    <None Include="Test.FBX" />
-    <None Include="Testcase.FBX" />
-    <None Include="Thing.FBX" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -37,11 +34,6 @@
     <ClCompile Include="Overloads.cpp" />
     <ClCompile Include="Windows_Main.cpp" />
     <ClCompile Include="Vector_Resources.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="color.PNG" />
-    <Image Include="ground.png" />
-    <Image Include="red.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{595A23F7-1A88-404B-8654-3F9D9770ACF5}</ProjectGuid>

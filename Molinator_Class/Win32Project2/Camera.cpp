@@ -13,8 +13,8 @@ Camera::Camera() {
 
 	//set the camera position
 	location.x = 0;
-	location.y = 3;
-	location.z = 5;
+	location.y = 10;
+	location.z = 15;
 
 	//set the camera view angle
 	angle = 45;
@@ -115,6 +115,9 @@ void Camera::update() {
 
 	//set the lookAt position to be the character position
 	lookAt = ourGame.characters.at(0).getLocation();
+	location.z = lookAt.z;
+	location.y = lookAt.y + 10;
+	location.x = lookAt.x - 15;
 
 	D3DXMatrixLookAtLH(&viewMatrix,
 					   &D3DXVECTOR3 (location.x, location.y, location.z),    // the camera position

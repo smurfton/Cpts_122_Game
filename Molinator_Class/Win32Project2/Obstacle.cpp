@@ -1,5 +1,19 @@
 #include "Small_Scene_Render.h"
 
+void Obstacle::setLocation(float x, float y, float z) {
+	Vector newLocation;
+	newLocation.x = x;
+	newLocation.y = y;
+	newLocation.z = z;
+	proposedMovement.translation.x = newLocation.x;
+	proposedMovement.translation.y = newLocation.y;
+	proposedMovement.translation.z = newLocation.z;
+
+	//modify the path
+	traverse.at(0) = traverse.at(0) + newLocation;
+	traverse.at(1) = traverse.at(1) + newLocation;
+
+}
 
 Obstacle::Obstacle(int ID, char vertexFileName[MAX_FILE_LENGTH], LPDIRECT3DDEVICE9 *device, _D3DCOLORVALUE color, Vector traverse) {
 	//initialize the object

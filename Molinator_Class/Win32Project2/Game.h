@@ -29,7 +29,6 @@ public:
 	void updateCameraLight();
 
 private:
-	string elementsFileName;
 	LPDIRECT3D9 d3d_interface; 
 	LPDIRECT3DDEVICE9 d3d_device; 
 	D3DPRESENT_PARAMETERS d3d_interface_parameters;

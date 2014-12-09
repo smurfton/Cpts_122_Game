@@ -9,6 +9,7 @@ public:
 	
 	//setters
 	void setProposedMotion();
+	void setLocation(float x, float y, float z);
 
 	//physics
 	void initializePhysics();
