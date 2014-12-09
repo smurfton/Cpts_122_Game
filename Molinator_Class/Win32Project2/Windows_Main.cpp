@@ -35,6 +35,12 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	ourGame.addObject("Ground.FBX", D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 	ourGame.addObject("Cube2.FBX", D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
 
+	Vector temp;
+	temp.x = 0;
+	temp.y = 1;
+	temp.z = 0;
+	ourGame.addObstacle("Cube.FBX", D3DXCOLOR(0,0,0,1), temp);
+
 	//create the main message loop
 	MSG msg;
 

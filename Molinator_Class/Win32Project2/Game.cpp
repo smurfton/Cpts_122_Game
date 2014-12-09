@@ -100,6 +100,14 @@ void Game::addCharacter(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE co
 	//push the object onto the vector
 	characters.push_back(newObject);
 }
+void Game::addObstacle(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color, Vector traverse) {
+	
+	//create the new character
+	Obstacle newObject(obstacles.size(), verticeFileName, &d3d_device, color, traverse);
+	//push the object onto the vector
+	obstacles.push_back(newObject);
+}
+
 void Game::render() {
 	d3d_device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0); //clear the buffer
 	d3d_device->Clear(0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0); //clear the z buffer, too
@@ -117,6 +125,12 @@ void Game::render() {
 		//draw element
 		elements.at(i).update();
 		elements.at(i).drawObject();
+	}
+
+	//draw all obstacles
+	for (int i = 0; i < obstacles.size(); i++) {
+		obstacles.at(i).update();
+		obstacles.at(i).drawObject();
 	}
 
 	//draw all the characters

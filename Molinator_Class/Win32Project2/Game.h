@@ -7,6 +7,7 @@ public:
 	Camera cam;
 	vector<Object> elements;
 	vector<Character> characters;
+	vector<Obstacle> obstacles;
 
 	/*public functions*/
 	Game ();
@@ -16,6 +17,7 @@ public:
 	//general functionality
 	void addObject(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color);
 	void addCharacter(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color);
+	void addObstacle(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color, Vector traverse);
 	void render();
 	void initializeLight();
 	void initializeMaterial();

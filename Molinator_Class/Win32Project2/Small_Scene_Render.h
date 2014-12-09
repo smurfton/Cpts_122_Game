@@ -102,6 +102,11 @@ Vector scaleVector(Vector v1, float length);
 Cube transformHitBox(Cube box, Transformation transform);
 bool checkVerticesCube(Cube c1, Cube c2);
 
+//overload functions
+Vector operator+(Vector &lhs, Vector &rhs);
+Vector operator-(Vector &lhs, Vector &rhs);
+bool operator==(Vector &lhs, Vector &rhs);
+
 //forward declaration
 class Game;
 //include the classes
@@ -109,6 +114,7 @@ class Game;
 #include "Player.h"
 #include "Camera.h"
 #include "Character.h"
+#include "Obstacle.h"
 #include "Game.h"
 
 #endif

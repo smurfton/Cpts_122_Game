@@ -496,6 +496,18 @@ bool Character::checkCollision() {
 		}
 	}
 
+	for (int i = 0; i < ourGame.obstacles.size(); i++) {
+		//check for collision
+		if (checkVerticesCube(ourGame.obstacles.at(i).getHitBox(), box) || checkVerticesCube(box, ourGame.obstacles.at(i).getHitBox())) {
+			//if there is a collision, set flag to true
+			collision = true;
+			//apply some crazy accelerations because why not
+			motion.acceleration.y = 100;
+			motion.acceleration.x = 5;
+			motion.acceleration.z = 5;
+		}
+	}
+
 	//loop through all of the other characters in the game
 	for (int i = 0; i < ourGame.characters.size(); i++) {
 

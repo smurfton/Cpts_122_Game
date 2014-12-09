@@ -15,6 +15,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Small_Scene_Render.h" />
   </ItemGroup>
@@ -32,6 +33,8 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Overloads.cpp" />
     <ClCompile Include="Windows_Main.cpp" />
     <ClCompile Include="Vector_Resources.cpp" />
   </ItemGroup>
