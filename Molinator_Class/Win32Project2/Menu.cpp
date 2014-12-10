@@ -47,12 +47,14 @@ void menu()
 		{
 			cout << endl << endl;
 			cout << "The object of this game is to traverse the obstacles as fast as you can!" << endl << endl;
+			cout << "Orange cubes will bounce you high, red cubes will kill the character, and blue cubes are nonmoving platforms."<<endl<<" The goal is to touch the white cube." << endl;
 			cout << "You control the player movement with the keyboard." << endl << endl;
 			cout << "Forward / Back = W / S" << endl;
 			cout << "Strafe Left / Right = A / D" << endl;
 			cout << "Jump = Space Bar" << endl;
-			cout << "Fall = X" << endl;
-			cout << "Turn Left / Right = Q / E" << endl << endl;
+			cout << "Self-Kill (for when youre stuck) = ` " << endl << endl;
+			//cout << "Fall = X" << endl;
+			//cout << "Turn Left / Right = Q / E" << endl << endl;
 			//cout << "Dig / Un-Dig = 1 / 2" << endl; //Was this removed?
 			cout << "*** Camera Controls ***" << endl << endl;
 			cout << "Zoom = + / -" << endl;

@@ -32,7 +32,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	menu();
 	FreeConsole();
 
-
+	//seed our random number generator
+	srand(time(NULL));
 
 	/*ifd = _open_osfhandle((intptr_t)input, _O_TEXT);
     ofd = _open_osfhandle((intptr_t)output, _O_TEXT);
@@ -43,33 +44,22 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     RegisterClassEx(&wc);
 
-    hWnd = CreateWindowEx(NULL, L"WindowClass", L"The Game",
+    hWnd = CreateWindowEx(NULL, L"WindowClass", L"Fun Run",
                           WS_OVERLAPPEDWINDOW, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
                           NULL, NULL, hInstance, NULL);
 
     ShowWindow(hWnd, nCmdShow);
 
 	ourGame.initialize(hWnd);
-	//add objects to the game
-
-	ourGame.addCharacter("Person.FBX", D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-	//ourGame.addObject("Cube.FBX", L"red.PNG");
-	ourGame.addObject("Ground.FBX", D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	//ourGame.addObject("Cube2.FBX", D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
-
-	Vector temp;
-	temp.x = 0;
-	temp.y = 0;
-	temp.z = 5;
-	for (int i = 0; i < 10; i++) {
-		ourGame.addObstacle("Cube.FBX", D3DXCOLOR(0,.66,0,.5), temp);
-		ourGame.obstacles.at(i).setLocation(6*i, 3*i, 5*i);
-	}
+	
+	//randomly generate a map
+	generateMap(35 + rand()%6);
 
 	//create the main message loop
 	MSG msg;
-
-	while (1) {
+	//start the timer
+	clock_t initialTime = clock();
+	while (ourGame.getVictory() == false) {
 
 		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) // peak at top message until queue is empty
         {
@@ -85,6 +75,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		ourGame.render();
 	}
 	//output the stats of the game
+	//calculate time required
+	clock_t totalTime, finalTime = clock();
+	totalTime = finalTime - initialTime;
 
 	//wait for user to exit
 	AllocConsole();
@@ -93,7 +86,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
     ofd = _open_osfhandle((intptr_t)output, _O_TEXT);
     *stdin = *_fdopen(ifd, "r");
     *stdout = *_fdopen(ofd, "w");
-	cout << "Number of Deaths: " << ourGame.getDeaths();
+	cout << "Number of Deaths: " << ourGame.getDeaths() << endl;
+	cout << "Time to complete (seconds): " << totalTime/CLOCKS_PER_SEC << endl;
 	cout <<" Enter any value to exit.";
 	int trash;
 	cin >> trash;
@@ -145,19 +139,19 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			case LEFT:
 				ourGame.characters.at(0).moveLeft();
 				break;
-			case TURN_RIGHT:
+			/*case TURN_RIGHT:
 				ourGame.characters.at(0).turnRight();
 				break;
 			case TURN_LEFT:
 				ourGame.characters.at(0).turnLeft();
-				break;
+				break;*/
 			case JUMP:
 				if (ourGame.characters.at(0).getYVel() == 0) {
 					ourGame.characters.at(0).jump();
 				}
 				break;
-			case FALL:
-				ourGame.characters.at(0).fall();
+			case KILL:
+				ourGame.addDeath();
 				break;
 
 			}
@@ -166,4 +160,84 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     }
 
     return DefWindowProc (hWnd, message, wParam, lParam);
+}
+void generateMap(int elements) {
+	//add objects to the game
+
+	ourGame.addCharacter("Person.FBX", D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+	//ourGame.addObject("Cube.FBX", L"red.PNG");
+	ourGame.addObject("Ground.FBX", D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+	//ourGame.addObject("Cube2.FBX", D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
+
+	Position loc;
+	loc.x = 0; 
+	loc.y = 0; 
+	loc.z = 0;
+	Vector traverse;
+	
+	//randomly generate our map
+	for (int i = 0; i < elements; i++) {
+		//generation 25 - 30 platforms
+
+		//update the platform position
+		if (rand()%5 == 1) {
+			loc.x -= rand()%4+2;
+		} else {
+			loc.x += rand()%4+2;
+		}
+
+		if (rand()%4 == 1) {
+			loc.y -= rand()%4+2;
+		} else {
+			loc.y += rand()%4+2;
+		}
+
+		if (rand()%3 == 1) {
+			loc.z -= rand()%4+2;
+		} else {
+			loc.z += rand()%4+2;
+		}
+
+		//update traverse
+		traverse.x = rand()%4;
+		traverse.y = rand()%3;
+		traverse.z = rand()%5;
+
+
+		if (rand()%4 == 1) {
+			//generate a non moving platform at location
+			ourGame.addObject("Cube.FBX", D3DXCOLOR(0,0,1,.51));
+			ourGame.elements.at(ourGame.elements.size()-1).setLocation(loc.x, loc.y, loc.z);
+			//generate an enemy around the nonmoving platform
+			ourGame.addEnemy("Cube2.FBX", D3DXCOLOR(1,0,0,1), traverse);
+			ourGame.enemies.at(ourGame.enemies.size()-1).setLocation(loc.x+ rand()%2, loc.y-rand()%2, loc.z);
+		} else {
+			//generate a moving platform
+			ourGame.addObstacle("Cube.FBX", D3DXCOLOR(1,.5,0,.5), traverse);
+			ourGame.obstacles.at(ourGame.obstacles.size()-1).setLocation(loc.x, loc.y, loc.z);
+		}
+
+	}
+
+	//update the platform position
+	if (rand()%5 == 1) {
+		loc.x -= rand()%4;
+	} else {
+		loc.x += rand()%4;
+	}
+
+	if (rand()%4 == 1) {
+		loc.y -= rand()%4;
+	} else {
+		loc.y += rand()%4;
+	}
+
+	if (rand()%3 == 1) {
+		loc.z -= rand()%4;
+	} else {
+		loc.z += rand()%4;
+	}
+
+	ourGame.addObjective("Cube.FBX", D3DXCOLOR(1,1,1,1), traverse);
+	ourGame.objectives.at(0).setLocation(loc.x, loc.y, loc.z);
 }

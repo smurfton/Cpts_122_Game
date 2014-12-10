@@ -11,7 +11,7 @@ public:
 	void updatePosition();
 	void setLocation(float x, float y, float z);
 
-private:
+protected:
 	vector<Vector> traverse;
 	Vector velocity;
 	bool forward;

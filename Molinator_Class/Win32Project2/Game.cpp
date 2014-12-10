@@ -40,6 +40,7 @@ void Game::initialize(HWND window) {
 	//create the camera
 	cam.setDevice(&d3d_device);
 	deathCount = 0;
+	victory = false;
 }
 
 Game::Game(HWND window) { 
@@ -107,12 +108,24 @@ void Game::addObstacle(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE col
 	obstacles.push_back(newObject);
 }
 
+void Game::addObjective(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color, Vector traverse) {
+	//create the new object
+	Objective newObjective(objectives.size(), verticeFileName, &d3d_device, color, traverse);
+	//push it onto the vector
+	objectives.push_back(newObjective);
+}
+void Game::addEnemy(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color, Vector traverse) {
+	//create the new object
+	Enemy newEnemy(enemies.size(), verticeFileName, &d3d_device, color, traverse);
+	//push it onto the vector
+	enemies.push_back(newEnemy);
+}
+
 void Game::render() {
 	//check to see if the main character is dead
 	if (characters.at(0).getLocation().y < -30) {
-		//if they are, we need to delete the main character and readd the object
-		characters.at(0).setLocation(0,3,0);
 		addDeath();
+		//if they have fallen, count them as dead
 	} 
 
 	d3d_device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0); //clear the buffer
@@ -137,6 +150,18 @@ void Game::render() {
 	for (int i = 0; i < obstacles.size(); i++) {
 		obstacles.at(i).update();
 		obstacles.at(i).drawObject();
+	}
+
+	//draw all the objectives
+	for (int i = 0; i < objectives.size(); i++) {
+		objectives.at(i).update();
+		objectives.at(i).drawObject();
+	}
+
+	//draw all the enemies
+	for (int i = 0; i < enemies.size(); i++) {
+		enemies.at(i).update();
+		enemies.at(i).drawObject();
 	}
 
 	//draw all the characters
@@ -207,9 +232,16 @@ void Game::updateCameraLight() {
 }
 
 void Game::addDeath() {
+	characters.at(0).setLocation(0,3,0);
 	deathCount++;
 }
 
 int Game::getDeaths() {
 	return deathCount;
+}
+bool Game::getVictory() {
+	return victory;
+}
+void Game::setVictory(bool win) {
+	victory = win;
 }

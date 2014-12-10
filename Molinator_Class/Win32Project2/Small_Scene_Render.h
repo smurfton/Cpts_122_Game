@@ -13,6 +13,7 @@
 #include <windows.h>
 #include <io.h>
 #include <fcntl.h>
+#include <ctime>
 
 using std::vector;
 using std::string;
@@ -37,11 +38,9 @@ using std::exit;
 #define LEFT 'a'
 #define RIGHT 'd'
 #define JUMP ' '
-#define FALL 'x'
+#define KILL '`'
 #define TURN_RIGHT 'e'
 #define TURN_LEFT 'q'
-#define DIG '1'
-#define UNDIG '2'
 
 //camera controls
 #define ZOOMIN '+'
@@ -55,7 +54,7 @@ using std::exit;
 #define MAX_ACC 30
 #define MAX_VEL 150
 #define MOVE_SPEED 10
-#define MAX_ACC_Y 100
+#define MAX_ACC_Y 200
 
 //not sure why we need this to be honest
 #pragma comment (lib, "d3d9.lib")
@@ -119,6 +118,9 @@ bool operator==(Vector &lhs, Vector &rhs);
 //menu function
 void menu();
 
+//map generation
+void generateMap(int elements);
+
 //forward declaration
 class Game;
 //include the classes
@@ -127,6 +129,8 @@ class Game;
 #include "Camera.h"
 #include "Character.h"
 #include "Obstacle.h"
+#include "Enemy.h"
+#include "Objective.h"
 #include "Game.h"
 
 #endif

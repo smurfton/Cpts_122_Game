@@ -310,3 +310,19 @@ int Object::getID() {
 Position Object::getLocation() {
 	return transform.translation;
 }
+
+void Object::setLocation(float x, float y, float z) {
+	transform.translation.x = x;
+	transform.translation.y = y;
+	transform.translation.z = z;
+
+	
+	//apply transformations
+	transformVector(transform, model, transformedModel); 
+
+	//calculate the vertex normals
+	calculateNormal(transformedModel);
+
+	//create the hitbox
+	box = transformHitBox(untransformedBox, transform); 
+}

@@ -110,6 +110,13 @@ void Character::setLocation(float x, float y, float z) {
 	motion.acceleration.x = 0;
 	motion.acceleration.y = -9.81;
 	motion.acceleration.z = 0;
+
+	//update models
+	//apply transformations
+	transformVector(transform, model, transformedModel); //model
+	//calculate the vertex normals
+	calculateNormal(transformedModel);
+	box = transformHitBox(untransformedBox, transform); //hitbox
 }
 //physics functions
 void Character::initializePhysics() {
@@ -341,7 +348,7 @@ void Character::turnRight() {
 }
 void Character::jump() {
 	//if (motion.acceleration.y == -9.81f) {
-		motion.velocity.y += 140;
+		motion.velocity.y += 240;
 	//}
 }
 void Character::fall() {
@@ -360,6 +367,7 @@ Transformation Character::getValidTransformations() {
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.translation.x = temp.translation.x; //if no collision, apply transform
 		} else {
 			//if there is a collision, velocity in this direction should be set to 0
@@ -380,6 +388,7 @@ Transformation Character::getValidTransformations() {
 		temp.translation.y = proposedMovement.translation.y; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.translation.y = temp.translation.y; //if no collision, apply transform
 		} else {
 			//if there is a collision, velocity in this direction should be set to 0
@@ -400,6 +409,7 @@ Transformation Character::getValidTransformations() {
 		temp.translation.z = proposedMovement.translation.z; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.translation.z = temp.translation.z; //if no collision, apply transform
 		} else {
 			//if there is a collision, velocity in this direction should be set to 0
@@ -432,6 +442,7 @@ Transformation Character::getValidTransformations() {
 		temp.scaling.x = proposedMovement.scaling.x; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.scaling.x = temp.scaling.x; //if no collision, apply transform
 		}
 	}
@@ -442,6 +453,7 @@ Transformation Character::getValidTransformations() {
 		temp.scaling.y = proposedMovement.scaling.y; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.scaling.y = temp.scaling.y; //if no collision, apply transform
 		}
 	}
@@ -452,6 +464,7 @@ Transformation Character::getValidTransformations() {
 		temp.scaling.z = proposedMovement.scaling.z; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.scaling.z = temp.scaling.z; //if no collision, apply transform
 		}
 	}
@@ -463,6 +476,7 @@ Transformation Character::getValidTransformations() {
 		temp.rotation.x = proposedMovement.rotation.x; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.rotation.x = temp.rotation.x; //if no collision, apply transform
 		}
 	}
@@ -473,6 +487,7 @@ Transformation Character::getValidTransformations() {
 		temp.rotation.y = proposedMovement.rotation.y; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.rotation.y = temp.rotation.y; //if no collision, apply transform
 		}
 	}
@@ -483,6 +498,7 @@ Transformation Character::getValidTransformations() {
 		temp.rotation.z = proposedMovement.rotation.z; //transform to test
 		box = transformHitBox(untransformedBox, temp); //transform hitbox
 		if (checkCollision() == false) { //check collision
+			temp = proposedMovement;
 			okayTransform.rotation.z = temp.rotation.z; //if no collision, apply transform
 		}
 	}
@@ -516,6 +532,23 @@ bool Character::checkCollision() {
 			collision = true;
 			//apply some crazy accelerations because why not
 			motion.acceleration.y = 20;
+		}
+	}
+
+	//loop through all enemies
+	for (int i = 0; i < ourGame.enemies.size(); i++) {
+		if (checkVerticesCube(ourGame.enemies.at(i).getHitBox(), box) || checkVerticesCube(box, ourGame.enemies.at(i).getHitBox())) {
+			//we have collided with an enemy. Call player death
+			ourGame.addDeath();
+		}
+	}
+
+
+	//loop through all objectives
+	for (int i = 0; i < ourGame.objectives.size(); i++) {
+		if (checkVerticesCube(ourGame.objectives.at(i).getHitBox(), box) || checkVerticesCube(box, ourGame.objectives.at(i).getHitBox())) {
+			//we have won the game!
+			ourGame.setVictory(true);
 		}
 	}
 

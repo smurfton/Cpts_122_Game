@@ -13,6 +13,7 @@ public:
 	int getID();
 	Position getLocation();
 	float getYVel();
+	void setLocation(float x, float y, float z);
 
 
 	//general functionality

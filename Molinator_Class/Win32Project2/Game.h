@@ -8,6 +8,8 @@ public:
 	vector<Object> elements;
 	vector<Character> characters;
 	vector<Obstacle> obstacles;
+	vector<Objective> objectives;
+	vector<Enemy> enemies;
 
 	/*public functions*/
 	Game ();
@@ -18,6 +20,8 @@ public:
 	void addObject(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color);
 	void addCharacter(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color);
 	void addObstacle(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color, Vector traverse);
+	void addObjective(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color, Vector traverse);
+	void addEnemy(char verticeFileName[MAX_FILE_LENGTH], _D3DCOLORVALUE color, Vector traverse);
 	void render();
 	void initializeLight();
 	void initializeMaterial();
@@ -25,6 +29,8 @@ public:
 	void populateElements();
 	void addDeath();
 	int getDeaths();
+	bool getVictory();
+	void setVictory(bool win);
 
 	//bool checkCollision(Cube transformedHitBox, int ID);
 	//void checkCollision(Object &moving);
@@ -36,5 +42,6 @@ private:
 	D3DPRESENT_PARAMETERS d3d_interface_parameters;
 	vector<Cube> hitBoxes;
 	int deathCount;
+	bool victory;
 };
 #endif

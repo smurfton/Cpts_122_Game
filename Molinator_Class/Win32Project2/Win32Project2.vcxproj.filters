@@ -36,6 +36,12 @@
     <ClInclude Include="Obstacle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Objective.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Person.FBX">
@@ -48,6 +54,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Ground.FBX">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Enemy.FBX">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -77,6 +86,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Objective.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

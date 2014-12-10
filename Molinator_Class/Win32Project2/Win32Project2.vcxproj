@@ -13,8 +13,10 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Objective.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Small_Scene_Render.h" />
@@ -22,15 +24,18 @@
   <ItemGroup>
     <None Include="Cube.FBX" />
     <None Include="Cube2.FBX" />
+    <None Include="Enemy.FBX" />
     <None Include="Ground.FBX" />
     <None Include="Person.FBX" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Objective.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Overloads.cpp" />
     <ClCompile Include="Windows_Main.cpp" />
