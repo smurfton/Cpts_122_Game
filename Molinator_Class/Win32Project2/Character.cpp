@@ -107,6 +107,9 @@ void Character::setLocation(float x, float y, float z) {
 	motion.velocity.y = 0;
 	motion.velocity.x = 0;
 	motion.velocity.z = 0;
+	motion.acceleration.x = 0;
+	motion.acceleration.y = -9.81;
+	motion.acceleration.z = 0;
 }
 //physics functions
 void Character::initializePhysics() {
@@ -132,7 +135,7 @@ void Character::updatePhysics() {
 	if (motion.acceleration.x != 0) {
 		motion.velocity.x += motion.acceleration.x;
 		//dampen
-		motion.acceleration.x *= .65;
+		motion.acceleration.x *= .55;
 	}
 	if (motion.acceleration.y != 0) {
 		motion.velocity.y +=  motion.acceleration.y;
@@ -144,7 +147,7 @@ void Character::updatePhysics() {
 	if (motion.acceleration.z != 0) {
 		motion.velocity.z +=  motion.acceleration.z;
 		//dampen
-		motion.acceleration.z *= .65;
+		motion.acceleration.z *= .55;
 
 	}
 
@@ -152,19 +155,19 @@ void Character::updatePhysics() {
 	if (motion.velocity.x != 0) {
 		proposedMovement.translation.x += .01 * motion.velocity.x;
 		//dampen
-		motion.velocity.x *= .85;
+		motion.velocity.x *= .9;
 	}
 	
 	if (motion.velocity.y != 0) {
 		proposedMovement.translation.y += .01 * motion.velocity.y;
 		//dampen
-		motion.velocity.y *= .85;
+		motion.velocity.y *= .9;
 	}
 	
 	if (motion.velocity.z != 0) {
 		proposedMovement.translation.z += .01 * motion.velocity.z;
 		//dampen
-		motion.velocity.z *= .85;
+		motion.velocity.z *= .9;
 	}
 
 
@@ -178,10 +181,10 @@ void Character::capPhysics() {
 	} else if (motion.acceleration.x < -MAX_ACC) {
 		motion.acceleration.x = -MAX_ACC;
 	}
-	if (motion.acceleration.y > MAX_ACC) {
-		motion.acceleration.y = MAX_ACC;
-	} else if (motion.acceleration.y < -MAX_ACC) {
-		motion.acceleration.y = -MAX_ACC;
+	if (motion.acceleration.y > MAX_ACC_Y) {
+		motion.acceleration.y = MAX_ACC_Y;
+	} else if (motion.acceleration.y < -MAX_ACC_Y) {
+		motion.acceleration.y = -MAX_ACC_Y;
 	}
 	if (motion.acceleration.z > MAX_ACC) {
 		motion.acceleration.z = MAX_ACC;
@@ -267,8 +270,8 @@ void Character::moveForward() {
 	normal.z = sin(rotation);
 
 	//apportion acceleration equal to magnitude of normal vectors
-	motion.velocity.x = MOVE_SPEED*normal.x;
-	motion.velocity.z = MOVE_SPEED*normal.z;
+	motion.acceleration.x = MOVE_SPEED*normal.x;
+	motion.acceleration.z = MOVE_SPEED*normal.z;
 
 }
 void Character::moveBackward() {
@@ -287,8 +290,8 @@ void Character::moveBackward() {
 	normal.z = sin(rotation);
 
 	//apportion acceleration equal to magnitude of normal vectors
-	motion.velocity.x = -MOVE_SPEED*normal.x;
-	motion.velocity.z = -MOVE_SPEED*normal.z;
+	motion.acceleration.x = -MOVE_SPEED*normal.x;
+	motion.acceleration.z = -MOVE_SPEED*normal.z;
 }
 void Character::moveLeft() {
 	//calculate the forward vector position based on rotation
@@ -306,8 +309,8 @@ void Character::moveLeft() {
 	normal.z = sin(rotation);
 
 	//assign acceleration with respect to this information
-	motion.velocity.x = MOVE_SPEED*normal.x;
-	motion.velocity.z = MOVE_SPEED*normal.z;
+	motion.acceleration.x = MOVE_SPEED*normal.x;
+	motion.acceleration.z = MOVE_SPEED*normal.z;
 }
 void Character::moveRight() {
 	//calculate the forward vector position based on rotation
@@ -325,8 +328,8 @@ void Character::moveRight() {
 	normal.z = sin(rotation);
 
 	//assign acceleration with respect to this information
-	motion.velocity.x = MOVE_SPEED*normal.x;
-	motion.velocity.z = MOVE_SPEED*normal.z;
+	motion.acceleration.x = MOVE_SPEED*normal.x;
+	motion.acceleration.z = MOVE_SPEED*normal.z;
 }
 void Character::turnLeft() {
 	proposedMovement.rotation.y += 5;

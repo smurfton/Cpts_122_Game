@@ -39,6 +39,7 @@ void Game::initialize(HWND window) {
 
 	//create the camera
 	cam.setDevice(&d3d_device);
+	deathCount = 0;
 }
 
 Game::Game(HWND window) { 
@@ -79,10 +80,10 @@ Game::Game(HWND window) {
 Game::~Game() { //deconstruct
 
 	//free the device
-	d3d_device->Release();
+	if (d3d_device != nullptr) d3d_device->Release();
 
 	//free the interface
-	d3d_interface->Release();
+	if (d3d_interface != nullptr) d3d_interface->Release();
 }
 
 //general functionality
@@ -111,7 +112,7 @@ void Game::render() {
 	if (characters.at(0).getLocation().y < -30) {
 		//if they are, we need to delete the main character and readd the object
 		characters.at(0).setLocation(0,3,0);
-		
+		addDeath();
 	} 
 
 	d3d_device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0); //clear the buffer
@@ -197,10 +198,18 @@ void Game::updateCameraLight() {
     light.Diffuse = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
 	light.Position = D3DXVECTOR3(cam.getLocation().x, cam.getLocation().y, cam.getLocation().z);
     light.Range = 100.0f;    // a range of 100
-    light.Attenuation0 = 2.0f;    // slight amount of constant light
+    light.Attenuation0 = 1.0f;    // slight amount of constant light
     light.Attenuation1 = 0.0f;    // only .125 inverse attenuation
     light.Attenuation2 = 0.0f;    // no square inverse attenuation
 
     d3d_device->SetLight(1, &light);
     d3d_device->LightEnable(1, TRUE);
+}
+
+void Game::addDeath() {
+	deathCount++;
+}
+
+int Game::getDeaths() {
+	return deathCount;
 }

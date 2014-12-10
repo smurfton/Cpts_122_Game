@@ -12,9 +12,13 @@ Camera::Camera() {
 	lookAt.z = 0;
 
 	//set the camera position
-	location.x = 0;
-	location.y = 10;
-	location.z = 15;
+	location.x = lookAt.x - 15;
+	location.y = lookAt.y +10;
+	location.z = lookAt.z + 3;
+
+	position.x = -15;
+	position.y = 10;
+	position.z = 3;
 
 	//set the camera view angle
 	angle = 45;
@@ -115,9 +119,8 @@ void Camera::update() {
 
 	//set the lookAt position to be the character position
 	lookAt = ourGame.characters.at(0).getLocation();
-	location.z = lookAt.z;
-	location.y = lookAt.y + 10;
-	location.x = lookAt.x - 15;
+	updatePosition();
+
 
 	D3DXMatrixLookAtLH(&viewMatrix,
 					   &D3DXVECTOR3 (location.x, location.y, location.z),    // the camera position
@@ -158,16 +161,16 @@ void Camera::rotateHorizontal(float angleCW) {
 	newAngle = currentAngle + D3DXToRadian(angleCW);
 
 	//now recalculate the locations. y is unchanged
-	newLocation.y = location.y;
-	newLocation.x = cos(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.z-lookAt.z)*(location.z-lookAt.z)) + lookAt.x;
-	newLocation.z = sin(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.z-lookAt.z)*(location.z-lookAt.z)) + lookAt.z;
+	newLocation.y = position.y;
+	newLocation.x = cos(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.z-lookAt.z)*(location.z-lookAt.z));
+	newLocation.z = sin(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.z-lookAt.z)*(location.z-lookAt.z));
 
 	//set the location
-	location = newLocation;
+	position = newLocation;
 
 }
 void Camera::zoom(float distanceIn) {
-	//we need to change the camera location. Camera will stay on the same vector
+	/*//we need to change the camera location. Camera will stay on the same vector
 	Vector position;
 	float magnitude = 0, length = 0;
 	position.x = location.x - lookAt.x;
@@ -188,20 +191,24 @@ void Camera::zoom(float distanceIn) {
 		location.x = position.x + lookAt.x;
 		location.y = position.y + lookAt.y;
 		location.z = position.z + lookAt.z;
-	}
+	}*/
+
+	float mag = calculateMagnitude(position) - distanceIn;
+	position.x *= (mag/calculateMagnitude(position));
+	position.y *= (mag/calculateMagnitude(position));
+	position.z *= (mag/calculateMagnitude(position));
+}
+
+void Camera::updatePosition() {
+
+	//modify the current position to maintain distance
+	location = lookAt + position;
 }
 
 void Camera::rotateVertical(float angleUp) {
 	//first calculate the number of radians we are currently at
 	float currentAngle = 0, newAngle = 0;
 	Position newLocation;
-
-	Vector tempV;
-	tempV.x = location.x - lookAt.x;
-	tempV.y = location.y - lookAt.y;
-	tempV.z = location.z - lookAt.z;
-
-	float magnitude = calculateMagnitude(tempV);
 
 	if ((location.x-lookAt.x) > 0) {
 		currentAngle = asin((location.y-lookAt.y)/sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)));
@@ -220,10 +227,10 @@ void Camera::rotateVertical(float angleUp) {
 	newAngle = currentAngle + D3DXToRadian(angleUp);
 
 	//now recalculate the locations.
-	newLocation.x = cos(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)) + lookAt.x;
-	newLocation.y = sin(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y)) + lookAt.y;
-	newLocation.z = location.z;
+	newLocation.x = cos(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y));
+	newLocation.y = sin(newAngle)*sqrt((location.x-lookAt.x)*(location.x-lookAt.x)+(location.y-lookAt.y)*(location.y-lookAt.y));
+	newLocation.z = position.z;
 
 	//set the location
-	location = newLocation;
+	position = newLocation;
 }

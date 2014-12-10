@@ -23,6 +23,7 @@ public:
 	void setNearFrame(float newNearFrame);
 	void setFarFrame(float newFarFrame);
 	void setDevice(LPDIRECT3DDEVICE9 *device);
+	void updatePosition();
 
 	void update();
 
@@ -35,6 +36,7 @@ private:
 	LPDIRECT3DDEVICE9 *d3d_device;
 	Position lookAt;
 	Position location;
+	Vector position;
 	float angle, nearFrame, farFrame;
 };
 

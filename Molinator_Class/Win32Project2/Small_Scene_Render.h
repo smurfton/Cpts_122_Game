@@ -4,16 +4,24 @@
 //includes
 #include <d3d9.h>
 #include <d3dx9.h>
-//#include <Windows.h>
 #include <vector>
 #include <fbxsdk.h>
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
+#include <windows.h>
+#include <io.h>
+#include <fcntl.h>
 
 using std::vector;
 using std::string;
 using std::fstream;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::exit;
+
 
 
 /*# defines*/
@@ -44,9 +52,10 @@ using std::fstream;
 #define PANDOWN 'k'
 
 //physics binds
-#define MAX_ACC 50
+#define MAX_ACC 30
 #define MAX_VEL 150
-#define MOVE_SPEED 30
+#define MOVE_SPEED 10
+#define MAX_ACC_Y 100
 
 //not sure why we need this to be honest
 #pragma comment (lib, "d3d9.lib")
@@ -106,6 +115,9 @@ bool checkVerticesCube(Cube c1, Cube c2);
 Vector operator+(Vector &lhs, Vector &rhs);
 Vector operator-(Vector &lhs, Vector &rhs);
 bool operator==(Vector &lhs, Vector &rhs);
+
+//menu function
+void menu();
 
 //forward declaration
 class Game;

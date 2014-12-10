@@ -23,6 +23,8 @@ public:
 	void initializeMaterial();
 	void initialize(HWND window);
 	void populateElements();
+	void addDeath();
+	int getDeaths();
 
 	//bool checkCollision(Cube transformedHitBox, int ID);
 	//void checkCollision(Object &moving);
@@ -33,5 +35,6 @@ private:
 	LPDIRECT3DDEVICE9 d3d_device; 
 	D3DPRESENT_PARAMETERS d3d_interface_parameters;
 	vector<Cube> hitBoxes;
+	int deathCount;
 };
 #endif
