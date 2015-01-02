@@ -3,7 +3,7 @@
 void menu()
 {
 	char Option = '0';
-	DWORD n;
+	//DWORD n;      //unreferenced local variable
 			//SetStdHandle(STD_OUTPUT_HANDLE, GetStdHandle(STD_OUTPUT_HANDLE));
 			//SetStdHandle(STD_INPUT_HANDLE, GetStdHandle(STD_INPUT_HANDLE));
 

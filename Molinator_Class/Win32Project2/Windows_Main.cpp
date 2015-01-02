@@ -33,7 +33,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	FreeConsole();
 
 	//seed our random number generator
-	srand(time(NULL));
+	srand((unsigned) time(NULL));
 
 	/*ifd = _open_osfhandle((intptr_t)input, _O_TEXT);
     ofd = _open_osfhandle((intptr_t)output, _O_TEXT);
@@ -199,14 +199,14 @@ void generateMap(int elements) {
 		}
 
 		//update traverse
-		traverse.x = rand()%4;
-		traverse.y = rand()%3;
-		traverse.z = rand()%5;
+		traverse.x = (float) (rand()%4);
+		traverse.y = (float) (rand()%3);
+		traverse.z = (float) (rand()%5);
 
 
 		if (rand()%4 == 1) {
 			//generate a non moving platform at location
-			ourGame.addObject("Cube.FBX", D3DXCOLOR(0,0,1,.51));
+			ourGame.addObject("Cube.FBX", D3DXCOLOR(0,0,1,(FLOAT).51));
 			ourGame.elements.at(ourGame.elements.size()-1).setLocation(loc.x, loc.y, loc.z);
 			//generate an enemy around the nonmoving platform
 			ourGame.addEnemy("Cube2.FBX", D3DXCOLOR(1,0,0,1), traverse);

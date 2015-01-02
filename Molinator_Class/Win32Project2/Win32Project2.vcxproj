@@ -74,7 +74,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\include;C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)\$(Configuration)</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)\</OutDir>
+    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\lib\vs2013\x64\release;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

@@ -1,84 +1,7 @@
-﻿Build started 12/10/2014 12:52:45 AM.
-     1>Project "C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\Win32Project2\Win32Project2.vcxproj" on node 2 (Build target(s)).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(346,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /FR"Debug\\" /Gd /TP /analyze- /errorReport:prompt Camera.cpp Character.cpp Enemy.cpp Game.cpp Menu.cpp Object.cpp Objective.cpp Obstacle.cpp Overloads.cpp Vector_Resources.cpp Windows_Main.cpp
-         Windows_Main.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\windows_main.cpp(36): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\windows_main.cpp(202): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\windows_main.cpp(203): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\windows_main.cpp(204): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\windows_main.cpp(209): warning C4305: 'argument' : truncation from 'double' to 'FLOAT'
-         Menu.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\menu.cpp(6): warning C4101: 'n' : unreferenced local variable
-         Generating Code...
-         Compiling...
-         Vector_Resources.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\vector_resources.cpp(5): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\vector_resources.cpp(12): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\vector_resources.cpp(28): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\vector_resources.cpp(39): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\vector_resources.cpp(236): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\vector_resources.cpp(246): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\vector_resources.cpp(387): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\vector_resources.cpp(405): warning C4018: '<' : signed/unsigned mismatch
-         Overloads.cpp
-         Obstacle.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\obstacle.cpp(63): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\obstacle.cpp(88): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\obstacle.cpp(167): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\obstacle.cpp(168): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\obstacle.cpp(169): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-         Objective.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\objective.cpp(53): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\objective.cpp(78): warning C4018: '<' : signed/unsigned mismatch
-         Object.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(53): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(166): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(167): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(168): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(171): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(172): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(173): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(176): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(177): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(178): warning C4244: '=' : conversion from 'fbxsdk_2015_1::FbxDouble' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\object.cpp(220): warning C4018: '<' : signed/unsigned mismatch
-         Game.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\game.cpp(143): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\game.cpp(150): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\game.cpp(156): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\game.cpp(162): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\game.cpp(168): warning C4018: '<' : signed/unsigned mismatch
-         Enemy.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\enemy.cpp(48): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\enemy.cpp(73): warning C4018: '<' : signed/unsigned mismatch
-         Character.cpp
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(49): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(111): warning C4305: '=' : truncation from 'double' to 'float'
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(131): warning C4305: '=' : truncation from 'double' to 'float'
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(145): warning C4305: '*=' : truncation from 'double' to 'float'
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(151): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(157): warning C4305: '*=' : truncation from 'double' to 'float'
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(163): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(165): warning C4305: '*=' : truncation from 'double' to 'float'
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(169): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(171): warning C4305: '*=' : truncation from 'double' to 'float'
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(175): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(177): warning C4305: '*=' : truncation from 'double' to 'float'
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(355): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(376): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(397): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(419): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(520): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(528): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(539): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(548): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ryan summers\documents\repositories\cpts_122_game\molinator_class\win32project2\character.cpp(556): warning C4018: '<' : signed/unsigned mismatch
-         Camera.cpp
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\\Debug\Molinator.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\lib\vs2012\x86\debug" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86" libfbxsdk.lib d3dx9d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\\Debug\Molinator.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\\Debug\Molinator.lib" /MACHINE:X86 Debug\Camera.obj
+﻿Build started 1/1/2015 3:25:55 PM.
+     1>Project "C:\Users\Simon\Documents\GitHub\Cpts_122_Game\Molinator_Class\Win32Project2\Win32Project2.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Simon\Documents\GitHub\Cpts_122_Game\Molinator_Class\\Debug\Molinator.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\lib\vs2012\x86\debug" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86" libfbxsdk.lib d3dx9d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Simon\Documents\GitHub\Cpts_122_Game\Molinator_Class\\Debug\Molinator.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Simon\Documents\GitHub\Cpts_122_Game\Molinator_Class\\Debug\Molinator.lib" /MACHINE:X86 Debug\Camera.obj
          Debug\Character.obj
          Debug\Enemy.obj
          Debug\Game.obj
@@ -89,11 +12,21 @@
          Debug\Overloads.obj
          Debug\Windows_Main.obj
          Debug\Vector_Resources.obj
-         Win32Project2.vcxproj -> C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\\Debug\Molinator.exe
-       BscMake:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\bscmake.exe /nologo /o"C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\\Debug\Molinator.bsc" /n Debug\Camera.sbr Debug\Character.sbr Debug\Enemy.sbr Debug\Game.sbr Debug\Menu.sbr Debug\Object.sbr Debug\Objective.sbr Debug\Obstacle.sbr Debug\Overloads.sbr Debug\Windows_Main.sbr Debug\Vector_Resources.sbr
-     1>Done Building Project "C:\Users\Ryan Summers\Documents\Repositories\Cpts_122_Game\Molinator_Class\Win32Project2\Win32Project2.vcxproj" (Build target(s)).
+     1>Object.obj : error LNK2019: unresolved external symbol "void __cdecl fbxsdk_2015_1::_FbxAssert(char const *,char const *,unsigned int,bool,char const *,...)" (?_FbxAssert@fbxsdk_2015_1@@YAXPBD0I_N0ZZ) referenced in function "public: int & __thiscall fbxsdk_2015_1::FbxArray<int>::operator[](int)const " (??A?$FbxArray@H@fbxsdk_2015_1@@QBEAAHH@Z)
+     1>Object.obj : error LNK2019: unresolved external symbol "protected: bool __thiscall fbxsdk_2015_1::FbxProperty::Get(void *,enum fbxsdk_2015_1::EFbxType const &)const " (?Get@FbxProperty@fbxsdk_2015_1@@IBE_NPAXABW4EFbxType@2@@Z) referenced in function "public: class fbxsdk_2015_1::FbxVectorTemplate3<double> __thiscall fbxsdk_2015_1::FbxPropertyT<class fbxsdk_2015_1::FbxVectorTemplate3<double> >::Get(void)const " (?Get@?$FbxPropertyT@V?$FbxVectorTemplate3@N@fbxsdk_2015_1@@@fbxsdk_2015_1@@QBE?AV?$FbxVectorTemplate3@N@2@XZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: void __thiscall fbxsdk_2015_1::FbxObject::Destroy(bool)" (?Destroy@FbxObject@fbxsdk_2015_1@@QAEX_N@Z) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: static class fbxsdk_2015_1::FbxManager * __cdecl fbxsdk_2015_1::FbxManager::Create(void)" (?Create@FbxManager@fbxsdk_2015_1@@SAPAV12@XZ) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: static class fbxsdk_2015_1::FbxIOSettings * __cdecl fbxsdk_2015_1::FbxIOSettings::Create(class fbxsdk_2015_1::FbxManager *,char const *)" (?Create@FbxIOSettings@fbxsdk_2015_1@@SAPAV12@PAVFbxManager@2@PBD@Z) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: static class fbxsdk_2015_1::FbxImporter * __cdecl fbxsdk_2015_1::FbxImporter::Create(class fbxsdk_2015_1::FbxManager *,char const *)" (?Create@FbxImporter@fbxsdk_2015_1@@SAPAV12@PAVFbxManager@2@PBD@Z) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: bool __thiscall fbxsdk_2015_1::FbxImporter::Import(class fbxsdk_2015_1::FbxDocument *,bool)" (?Import@FbxImporter@fbxsdk_2015_1@@QAE_NPAVFbxDocument@2@_N@Z) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: class fbxsdk_2015_1::FbxNode * __thiscall fbxsdk_2015_1::FbxNode::GetChild(int)" (?GetChild@FbxNode@fbxsdk_2015_1@@QAEPAV12@H@Z) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: class fbxsdk_2015_1::FbxNodeAttribute * __thiscall fbxsdk_2015_1::FbxNode::GetNodeAttribute(void)" (?GetNodeAttribute@FbxNode@fbxsdk_2015_1@@QAEPAVFbxNodeAttribute@2@XZ) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: class fbxsdk_2015_1::FbxSurfaceMaterial * __thiscall fbxsdk_2015_1::FbxNode::GetMaterial(int)const " (?GetMaterial@FbxNode@fbxsdk_2015_1@@QBEPAVFbxSurfaceMaterial@2@H@Z) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: static class fbxsdk_2015_1::FbxScene * __cdecl fbxsdk_2015_1::FbxScene::Create(class fbxsdk_2015_1::FbxManager *,char const *)" (?Create@FbxScene@fbxsdk_2015_1@@SAPAV12@PAVFbxManager@2@PBD@Z) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>Object.obj : error LNK2019: unresolved external symbol "public: class fbxsdk_2015_1::FbxNode * __thiscall fbxsdk_2015_1::FbxScene::GetRootNode(void)const " (?GetRootNode@FbxScene@fbxsdk_2015_1@@QBEPAVFbxNode@2@XZ) referenced in function "public: void __thiscall Object::loadFbx(void)" (?loadFbx@Object@@QAEXXZ)
+     1>C:\Users\Simon\Documents\GitHub\Cpts_122_Game\Molinator_Class\\Debug\Molinator.exe : fatal error LNK1120: 12 unresolved externals
+     1>Done Building Project "C:\Users\Simon\Documents\GitHub\Cpts_122_Game\Molinator_Class\Win32Project2\Win32Project2.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:01:03.72
+Time Elapsed 00:00:03.14

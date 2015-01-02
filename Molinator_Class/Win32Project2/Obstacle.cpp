@@ -60,7 +60,7 @@ Obstacle::Obstacle(const Obstacle &copy) {
 
 	//copy over the vectors
 	Vertex vertice, tVertice;
-	for (int i = 0; i < copy.model.size(); i++) {
+	for (unsigned i = 0; i < copy.model.size(); i++) {
 		//model
 		vertice.x = copy.model.at(i).x;
 		vertice.y = copy.model.at(i).y;
@@ -85,7 +85,7 @@ Obstacle::Obstacle(const Obstacle &copy) {
 	}
 
 	//deep copy the path
-	for (int i = 0; i < copy.traverse.size(); i++) {
+	for (unsigned i = 0; i < copy.traverse.size(); i++) {
 		traverse.push_back(copy.traverse.at(i));
 	}
 
@@ -164,9 +164,9 @@ void Obstacle::updatePosition() {
 
 	Vector translation = transform.translation;
 
-	translation.x += .01 * velocity.x;
-	translation.y += .01 * velocity.y;
-	translation.z += .01 * velocity.z;
+	translation.x += (float) (.01 * velocity.x);
+	translation.y += (float) (.01 * velocity.y);
+	translation.z += (float) (.01 * velocity.z);
 
 	//find the min and max XYZ
 	float minX = 0, minY = 0, minZ = 0, maxX = 0, maxY = 0, maxZ = 0;

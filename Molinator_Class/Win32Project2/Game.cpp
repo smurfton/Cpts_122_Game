@@ -140,32 +140,32 @@ void Game::render() {
 	/*Begin transformation pipeline! Please move to separate functions to simplify*/
 
 	//draw all the elements of the game
-	for (int i = 0; i < elements.size(); i++) {
+	for (unsigned i = 0; i < elements.size(); i++) {
 		//draw element
 		elements.at(i).update();
 		elements.at(i).drawObject();
 	}
 
 	//draw all obstacles
-	for (int i = 0; i < obstacles.size(); i++) {
+	for (unsigned i = 0; i < obstacles.size(); i++) {
 		obstacles.at(i).update();
 		obstacles.at(i).drawObject();
 	}
 
 	//draw all the objectives
-	for (int i = 0; i < objectives.size(); i++) {
+	for (unsigned i = 0; i < objectives.size(); i++) {
 		objectives.at(i).update();
 		objectives.at(i).drawObject();
 	}
 
 	//draw all the enemies
-	for (int i = 0; i < enemies.size(); i++) {
+	for (unsigned i = 0; i < enemies.size(); i++) {
 		enemies.at(i).update();
 		enemies.at(i).drawObject();
 	}
 
 	//draw all the characters
-	for (int i = 0; i < characters.size(); i++) {
+	for (unsigned i = 0; i < characters.size(); i++) {
 		characters.at(i).update();
 		characters.at(i).drawObject();
 	}

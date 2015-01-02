@@ -50,7 +50,7 @@ Objective::Objective (const Objective &copy) {
 
 	//copy over the vectors
 	Vertex vertice, tVertice;
-	for (int i = 0; i < copy.model.size(); i++) {
+	for (unsigned i = 0; i < copy.model.size(); i++) {
 		//model
 		vertice.x = copy.model.at(i).x;
 		vertice.y = copy.model.at(i).y;
@@ -75,7 +75,7 @@ Objective::Objective (const Objective &copy) {
 	}
 
 	//deep copy the path
-	for (int i = 0; i < copy.traverse.size(); i++) {
+	for (unsigned i = 0; i < copy.traverse.size(); i++) {
 		traverse.push_back(copy.traverse.at(i));
 	}
 

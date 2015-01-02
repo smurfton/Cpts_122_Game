@@ -2,14 +2,14 @@
 
 void addVectors(vector<Vertex> &v1, vector<Vertex> &v2) {
 	//add everything to v1.
-	for (int i = 0; i < v2.size(); i++) {
+	for (unsigned i = 0; i < v2.size(); i++) {
 		(v1).push_back(v2[i]);
 	}
 }
 
 void translate(vector<Vertex> &v1, vector<Vertex> &v2, char dir, float amount) {
 
-	for (int i = 0; i < v1.size(); i++) {
+	for (unsigned i = 0; i < v1.size(); i++) {
 		switch(dir) {
 		case 'x':
 			v2.at(i).x += amount;
@@ -25,7 +25,7 @@ void translate(vector<Vertex> &v1, vector<Vertex> &v2, char dir, float amount) {
 }
 
 void scale(vector<Vertex> &v1, vector<Vertex> &v2, Vector factor) {
-	for (int i = 0; i < v1.size(); i++) {
+	for (unsigned i = 0; i < v1.size(); i++) {
 		v2.at(i).x *= factor.x;
 		v2.at(i).y *= factor.y;
 		v2.at(i).z *= factor.z;
@@ -36,7 +36,7 @@ void rotate(vector<Vertex> &v1, vector<Vertex> &v2, Vector rotation) {
 
 	float magnitude = 0, currentAngle = 0, newAngle = 0;
 	//loop through each vertice
-	for (int i = 0; i < v1.size(); i++) {
+	for (unsigned i = 0; i < v1.size(); i++) {
 
 		//rotate about the x axis - x remains constant
 		/*//calculate the magnitude of the unit circle vector
@@ -233,7 +233,7 @@ void copyVector (vector<Vertex> &v1, vector<Vertex> &v2) {
 		v2.pop_back();
 	}
 	//copy information from v1
-	for (int i = 0; i < v1.size(); i++) {
+	for (unsigned i = 0; i < v1.size(); i++) {
 		v2.push_back(v1.at(i));
 	}
 }
@@ -243,7 +243,7 @@ void calculateNormal(vector<Vertex> &v1) {
 	Vector normal;
 	float length = 0;
 //loop through each triangle
-	for (int i = 0; i < (v1.size()/3); i++) {
+	for (unsigned i = 0; i < (v1.size()/3); i++) {
 		//get the three points of the triangle
 		p1 = v1.at(3*i);
 		p2 = v1.at(3*i+1);
@@ -384,7 +384,7 @@ bool checkVerticesCube(Cube c1, Cube c2) {
 		//check each point
 
 		//axis code: 1 = x-axis, 2 = y-axis, 3 = z-axis, negative is the negative side
-		for (int i = 0; i < collision2Sides.size(); i++) {
+		for (unsigned i = 0; i < collision2Sides.size(); i++) {
 
 			//find the component of vector at i that isn't in the cube
 			if (collision2Sides.at(i).x <= 0) {
@@ -402,7 +402,7 @@ bool checkVerticesCube(Cube c1, Cube c2) {
 			}
 
 			//check each other point
-			for (int j = 0; j < collision2Sides.size(); j++) {
+			for (unsigned j = 0; j < collision2Sides.size(); j++) {
 
 				//find the component of vector at j that isnt in the cube
 				if (collision2Sides.at(j).x <= 0) {

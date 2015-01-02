@@ -50,7 +50,7 @@ Object::Object(const Object &copy) { //copy constructor
 
 	//copy over the vectors
 	Vertex vertice, tVertice;
-	for (int i = 0; i < copy.model.size(); i++) {
+	for (unsigned i = 0; i < copy.model.size(); i++) {
 		//model
 		vertice.x = copy.model.at(i).x;
 		vertice.y = copy.model.at(i).y;
@@ -163,19 +163,19 @@ void Object::loadFbx() {
 
 	//transformation information
 	FbxDouble3 translation = object->LclTranslation.Get();
-	transform.translation.x = translation.mData[0];
-	transform.translation.y = translation.mData[1];
-	transform.translation.z = translation.mData[2];
+	transform.translation.x = (float) translation.mData[0];
+	transform.translation.y = (float) translation.mData[1];
+	transform.translation.z = (float) translation.mData[2];
 
 	FbxDouble3 rotation = object->LclRotation.Get();
-	transform.rotation.x = rotation.mData[0];
-	transform.rotation.y = rotation.mData[1];
-	transform.rotation.z = rotation.mData[2];
+	transform.rotation.x = (float) rotation.mData[0];
+	transform.rotation.y = (float) rotation.mData[1];
+	transform.rotation.z = (float) rotation.mData[2];
 
 	FbxDouble3 scaling = object->LclScaling.Get();
-	transform.scaling.x = scaling.mData[0];
-	transform.scaling.y = scaling.mData[1];
-	transform.scaling.z = scaling.mData[2];
+	transform.scaling.x = (float) scaling.mData[0];
+	transform.scaling.y = (float) scaling.mData[1];
+	transform.scaling.z = (float) scaling.mData[2];
 
 
 	//material information
@@ -217,7 +217,7 @@ void Object::generateHitBox() {
 	float minX = model.at(0).x, maxX = model.at(0).x, minY = model.at(0).y, maxY = model.at(0).y, minZ = model.at(0).z, maxZ = model.at(0).z;
 	
 	//loop through every vertice in the model file
-	for (int i = 1; i < model.size(); i++) {
+	for (unsigned i = 1; i < model.size(); i++) {
 		//check if new X is largest
 		if (model.at(i).x > maxX) {
 			maxX = model.at(i).x;
